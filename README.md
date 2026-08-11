@@ -54,6 +54,16 @@ Open `http://127.0.0.1:5173` for the application and
 
 ## Export the report PDF
 
+The submission report uses the supplied academic LaTeX style. With TeX Live
+and XeLaTeX installed, rebuild it with:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\build_report_latex.ps1
+```
+
+The editable LaTeX source is `docs/TECHNICAL_REPORT.tex`. The Markdown and
+ReportLab path below remains available as a content-oriented fallback.
+
 Create `docs/group_metadata.json` from the provided example, replace every
 sample value with the verified Group ID, full names, and student IDs, then run:
 
