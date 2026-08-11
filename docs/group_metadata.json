@@ -1,0 +1,25 @@
+{
+  "group_id": "1",
+  "members": {
+    "hoang": {
+      "full_name": "Nguyễn Huy Hoàng",
+      "student_id": "24127378"
+    },
+    "hau": {
+      "full_name": "Nguyễn Đăng Hậu",
+      "student_id": "24127167"
+    },
+    "trung": {
+      "full_name": "Nguyễn Thành Trung",
+      "student_id": "24127257"
+    },
+    "khang": {
+      "full_name": "Phùng Bảo Khang",
+      "student_id": "24127052"
+    },
+    "thai_kiet": {
+      "full_name": "Thái Kiệt",
+      "student_id": "24127069"
+    }
+  }
+}

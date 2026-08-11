@@ -1,0 +1,14 @@
+SOURCE CODE LINKS - GROUP 1 AI101 LAB 1
+
+Parent repository:
+https://github.com/Group-1-Lab-AI101/lab-1
+
+Backend repository:
+https://github.com/Group-1-Lab-AI101/lab-1-backend
+
+Frontend repository:
+https://github.com/Group-1-Lab-AI101/lab-1-frontend
+
+The parent repository links the backend and frontend as Git submodules.
+Before submission, verify that all three repositories contain the final commits
+and that the instructor has permission to access them.

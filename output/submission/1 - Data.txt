@@ -1,0 +1,41 @@
+DATA DESCRIPTION - GROUP 1 AI101 LAB 1
+
+Project: Tourist Route Planner for Visiting Multiple Landmarks in Ho Chi Minh City
+
+1. Scope
+The application uses a directed driving graph around central Ho Chi Minh City:
+- 481 routable nodes
+- 995 directed edges
+- 24 tourist landmarks mapped to 24 distinct routable nodes
+- 403 one-way directed edges
+
+2. Source and license
+Road geometry and attributes were derived from OpenStreetMap with OSMnx 2.1.0
+using relation IDs 19260504 and 19260546. OpenStreetMap data is credited to
+OpenStreetMap contributors and is available under the Open Database License.
+
+3. Repository files
+All final data files are in the backend repository under data/:
+- data/osm/roads.geojson: 1,075 source road features
+- data/osm/intersections.geojson: 519 source intersection records
+- data/osm/boundary.geojson: source boundary polygons
+- data/osm/summary.json: generation metadata and counts
+- data/landmarks.json: 24 HCMC landmarks
+- data/mock_graph.json: group-designed graph used in tests and video
+- data/mock_config.json: configurable example cost weights
+
+Backend repository:
+https://github.com/Group-1-Lab-AI101/lab-1-backend
+
+4. Runtime edge schema
+Each edge contains target node ID, distance_km, time_min, congestion, risk,
+road_type, road name, OSM metadata, direction, and route geometry.
+
+5. Derived scenario data
+Congestion, risk, and normal/rush-hour/rainy profiles are deterministic lab
+scenarios derived from road class. They are not live traffic measurements.
+
+6. Documented limitations
+Landmark-to-road access offsets are excluded from road-route totals. The mean
+offset is approximately 100 m and the maximum is 383.5 m. One bidirectional
+boundary connection (two directed edges) joins separately clipped source areas.

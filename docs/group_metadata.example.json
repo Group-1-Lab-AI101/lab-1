@@ -1,0 +1,25 @@
+{
+  "group_id": "REPLACE_WITH_OFFICIAL_GROUP_ID",
+  "members": {
+    "hoang": {
+      "full_name": "REPLACE_WITH_FULL_NAME",
+      "student_id": "REPLACE_WITH_STUDENT_ID"
+    },
+    "hau": {
+      "full_name": "REPLACE_WITH_FULL_NAME",
+      "student_id": "REPLACE_WITH_STUDENT_ID"
+    },
+    "trung": {
+      "full_name": "REPLACE_WITH_FULL_NAME",
+      "student_id": "REPLACE_WITH_STUDENT_ID"
+    },
+    "khang": {
+      "full_name": "REPLACE_WITH_FULL_NAME",
+      "student_id": "REPLACE_WITH_STUDENT_ID"
+    },
+    "thai_kiet": {
+      "full_name": "REPLACE_WITH_FULL_NAME",
+      "student_id": "REPLACE_WITH_STUDENT_ID"
+    }
+  }
+}
