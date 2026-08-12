@@ -19,22 +19,32 @@ git submodule update --init --recursive
 
 ## Start the application
 
-Terminal 1:
+Terminal 1 (Backend - Linux / macOS):
+
+```bash
+cd lab-1-backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -e .
+python3 -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+Terminal 1 (Backend - Windows PowerShell):
 
 ```powershell
 cd lab-1-backend
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+python -m venv venv
+.\venv\Scripts\Activate.ps1
 python -m pip install -e .
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Terminal 2:
+Terminal 2 (Frontend):
 
-```powershell
+```bash
 cd lab-1-frontend
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 Open `http://127.0.0.1:5173` for the application and
@@ -49,7 +59,7 @@ Open `http://127.0.0.1:5173` for the application and
 - [Algorithm walkthrough](docs/ALGORITHM_WALKTHROUGH.md)
 - [Demo script](docs/DEMO_SCRIPT.md)
 - [Submission checklist](docs/SUBMISSION_CHECKLIST.md)
-- [Verified 15-slide presentation](output/presentation/1%20-%20Slide.pptx)
+- [Verified 20-slide presentation](output/presentation/1%20-%20Slide.pptx)
 - 70 automated backend tests and a verified production frontend build
 
 ## Export the report PDF

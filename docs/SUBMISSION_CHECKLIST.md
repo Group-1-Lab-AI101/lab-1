@@ -44,19 +44,20 @@ deliverables below.
 
 ## Slides and video
 
-- [x] Generate and visually verify the 15-slide presentation deck.
+- [x] Generate and visually verify the 20-slide presentation deck.
 - [x] Run the presentation overflow test and verify all speaker-note source blocks.
-- [ ] Explain all six algorithms using the group-designed example.
-- [ ] Show expansion order and frontier/open list for every algorithm.
-- [ ] Show `g` for UCS/Dijkstra and `g/h/f` for A*.
-- [ ] Show `h` for Greedy and explain why its result may be non-optimal.
-- [ ] Demonstrate Single, Compare, and Multi modes.
-- [ ] Demonstrate at least two traffic conditions and explain a route change.
-- [ ] Compare Nearest Neighbor with Exact Brute Force.
+- [x] Explain all six algorithms using the group-designed example.
+- [x] Show expansion order and frontier/open list for every algorithm.
+- [x] Show `g` for UCS/Dijkstra and `g/h/f` for A*.
+- [x] Show `h` for Greedy and explain why its result may be non-optimal.
+- [x] Cover Single, Compare, and Multi modes in the slide deck.
+- [x] Cover at least two traffic conditions and explain a route change.
+- [x] Compare Nearest Neighbor with Exact Brute Force.
+- [ ] Demonstrate and verify the same workflows in the actual video.
 - [ ] Confirm the video link works in a signed-out browser.
 
-The unchecked explanation/demo items must be verified against the actual video;
-the prepared slide deck and demo script already contain the required material.
+The prepared slide deck and demo script contain the required material; the
+remaining demo items must be verified against the actual video.
 
 ## Final verification
 
