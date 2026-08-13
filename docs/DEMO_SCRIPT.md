@@ -7,7 +7,7 @@ replace it with only an application tour.
 
 - State the problem: plan tourist routes in central Ho Chi Minh City while
   considering distance, estimated time, congestion, and risk.
-- Show the network count in the results panel: 481 nodes, 995 directed edges,
+- Show the network count in the results panel: 1,662 nodes, 3,649 directed edges,
   and 24 landmarks.
 - Briefly identify the React/Leaflet frontend and FastAPI backend.
 
@@ -90,9 +90,9 @@ Avoid claiming one algorithm is always fastest from a single run.
 ## 7. Engineering evidence - 30 seconds
 
 - Open `http://127.0.0.1:8000/docs` and show the REST/WebSocket-facing API.
-- State that 70 backend tests pass and the frontend production build succeeds.
-- Mention the main limitations: simulated traffic and one transparent boundary
-  connector between separately clipped OSM extracts.
+- State that 72 backend tests pass and the frontend production build succeeds.
+- Mention the main limitations: simulated traffic, periodically curated access
+  points, and the lack of a separate pedestrian graph.
 
 ## 8. Closing - 20 seconds
 

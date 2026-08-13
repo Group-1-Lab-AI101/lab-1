@@ -24,7 +24,7 @@ Minh City
 | Requirement | Evidence | Status |
 | --- | --- | --- |
 | Vietnamese traffic scenario | 24 HCMC landmarks and OSM-derived roads | Complete |
-| Graph, dataset, cost model | 481 nodes, 995 directed edges, weighted traffic cost | Complete |
+| Graph, dataset, cost model | 1,662 nodes, 3,649 directed edges, weighted traffic cost | Complete |
 | BFS, DFS, UCS, A* | Independent implementations with shared contracts | Complete |
 | Two additional algorithms | Dijkstra and Greedy Best-First | Complete |
 | Multi-location optimization | Nearest Neighbor and Exact Brute Force | Complete |
@@ -78,30 +78,28 @@ loader provides it.
 
 ## 4. Dataset
 
-The source GeoJSON was produced from OpenStreetMap using the group's
-`osmnx-tools` repository. The original extracts contain 1,075 directed road
-features, 519 intersection records, and approximately 95.083 km of road
-geometry. The application normalizes duplicate endpoint pairs, joins two
-adjacent major components, and retains the largest strongly connected graph.
+The source GeoJSON is reproducibly generated from OpenStreetMap with OSMnx
+2.1.1. One continuous bounding box covers every landmark plus a 600 m buffer.
+The extract contains 3,740 directed road features, 1,713 intersection/access
+records, and approximately 331.591 km of directed road geometry. The
+application normalizes duplicate endpoint pairs and retains the largest
+strongly connected graph.
 
 | Final graph property | Value |
 | --- | ---: |
-| Routable nodes | 481 |
-| Directed edges | 995 |
-| One-way directed edges | 403 |
+| Routable nodes | 1,662 |
+| Directed edges | 3,649 |
+| One-way directed edges | 1,133 |
 | Landmarks | 24 |
 | Unique assigned landmark nodes | 24 |
 | Traffic profiles | 3 |
 
-Every landmark is assigned to a unique nearby routable node so that two
-different required stops cannot collapse into one visit. Marker-to-node offsets
-are shown as dashed access lines in the GUI. The average offset is about 100 m;
-the maximum is 383.5 m for Ben Thanh Market. These offsets are not included in
-road-route metrics and are a documented dataset limitation.
-
-The two source boundaries are separately clipped. One bidirectional boundary
-link, represented by two directed simulated edges, joins their major road
-components. This assumption is labeled `Boundary connector` in route details.
+Every landmark has a display coordinate and a distinct routing-access
+coordinate. Twelve use curated OSM gates/entrances or verified frontage; the
+rest use the nearest drivable road. The generator splits road edges at access
+projections so routes may end mid-block. Mean access-to-road offset is 8.0 m
+and the maximum is 29.9 m. The GUI distinguishes venue centers from access
+points and shows the remaining connector.
 
 ### Landmark list
 
@@ -448,7 +446,7 @@ or Multi to choose several required landmarks.
 
 ## 12. Verification
 
-- 70 backend unit and integration tests pass.
+- 72 backend unit and integration tests pass.
 - REST validation and WebSocket streaming are covered.
 - Every landmark uses a unique routable node.
 - All 552 ordered landmark pairs are reachable.
@@ -464,18 +462,16 @@ or Multi to choose several required landmarks.
 ## 13. Limitations and Future Work
 
 - Traffic and risk are derived scenarios rather than live measurements.
-- Six landmarks are more than 100 m from their assigned road node; the maximum
-  access offset is 383.5 m.
-- One transparent simulated boundary link joins separate source extracts.
+- Curated access points should be periodically reviewed against OSM changes.
+- Pedestrian-only paths require a separate walking graph.
 - Exact multi-location search has factorial growth and is capped at eight stops.
 - Runtime varies by hardware and browser load.
 - The road model does not yet include turn restrictions, traffic signals,
   vehicle classes, or multiple vehicles.
 
-Future work should use one continuous OSM extract covering every landmark,
-integrate live traffic and flooding feeds, project landmarks to actual road
-edges, support travel modes and turn restrictions, and evaluate over a larger
-reproducible scenario suite.
+Future work should integrate live traffic and flooding feeds, add a walking
+mode, support turn restrictions, and evaluate over a larger reproducible
+scenario suite.
 
 ## 14. Conclusion
 

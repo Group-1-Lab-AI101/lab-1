@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="850" viewBox="0 0 1500 850" role="img" aria-labelledby="title desc">
+  <title id="title">Luồng xử lý một yêu cầu tìm đường</title>
+  <desc id="desc">Sequence diagram giữa người dùng, giao diện, FastAPI, RoutePlanner và đồ thị.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
+    <style>
+      .title{font:700 28px Arial,sans-serif;fill:#0f172a}.participant{font:700 17px Arial,sans-serif;fill:#0f172a}.msg{font:15px Arial,sans-serif;fill:#0f172a}.box{stroke:#2563eb;stroke-width:2;fill:#dbeafe;rx:12}.life{stroke:#94a3b8;stroke-width:2;stroke-dasharray:7 6}.call{stroke:#334155;stroke-width:2;marker-end:url(#arrow)}.return{stroke:#0f766e;stroke-width:2;stroke-dasharray:7 5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1500" height="850" fill="#f8fafc"/>
+  <text x="750" y="45" text-anchor="middle" class="title">Luồng xử lý một yêu cầu tìm đường</text>
+
+  <g>
+    <rect x="45" y="75" width="210" height="65" class="box"/><text x="150" y="115" text-anchor="middle" class="participant">Người dùng</text>
+    <rect x="345" y="75" width="210" height="65" class="box"/><text x="450" y="115" text-anchor="middle" class="participant">Giao diện</text>
+    <rect x="645" y="75" width="210" height="65" class="box"/><text x="750" y="115" text-anchor="middle" class="participant">FastAPI</text>
+    <rect x="945" y="75" width="210" height="65" class="box"/><text x="1050" y="115" text-anchor="middle" class="participant">RoutePlanner</text>
+    <rect x="1245" y="75" width="210" height="65" class="box"/><text x="1350" y="115" text-anchor="middle" class="participant">Đồ thị</text>
+  </g>
+  <line x1="150" y1="140" x2="150" y2="810" class="life"/><line x1="450" y1="140" x2="450" y2="810" class="life"/><line x1="750" y1="140" x2="750" y2="810" class="life"/><line x1="1050" y1="140" x2="1050" y2="810" class="life"/><line x1="1350" y1="140" x2="1350" y2="810" class="life"/>
+
+  <line x1="150" y1="190" x2="450" y2="190" class="call"/><text x="300" y="180" text-anchor="middle" class="msg">Chọn điểm, thuật toán, tiêu chí, traffic</text>
+  <line x1="450" y1="250" x2="750" y2="250" class="call"/><text x="600" y="240" text-anchor="middle" class="msg">Gửi yêu cầu /ws/search</text>
+  <line x1="750" y1="310" x2="1050" y2="310" class="call"/><text x="900" y="300" text-anchor="middle" class="msg">Chuẩn hóa và kiểm tra input</text>
+  <line x1="1050" y1="370" x2="1350" y2="370" class="call"/><text x="1200" y="360" text-anchor="middle" class="msg">Áp profile và chạy tìm kiếm</text>
+
+  <rect x="675" y="410" width="475" height="210" fill="#ecfeff" stroke="#0891b2" stroke-width="2" rx="12"/>
+  <text x="695" y="438" class="participant">Lặp trong khi tìm</text>
+  <line x1="1050" y1="480" x2="750" y2="480" class="return"/><text x="900" y="470" text-anchor="middle" class="msg">expand / frontier / visited</text>
+  <line x1="750" y1="535" x2="450" y2="535" class="return"/><text x="600" y="525" text-anchor="middle" class="msg">WebSocket step</text>
+  <line x1="450" y1="585" x2="150" y2="585" class="return"/><text x="300" y="575" text-anchor="middle" class="msg">Cập nhật trực quan</text>
+
+  <path d="M1050 660 h95 v45 h-95" fill="none" class="call"/><text x="1190" y="678" class="msg">Dựng tuyến, metrics,</text><text x="1190" y="700" class="msg">giải thích và alternative</text>
+  <line x1="1050" y1="745" x2="750" y2="745" class="return"/><text x="900" y="735" text-anchor="middle" class="msg">Kết quả cuối</text>
+  <line x1="750" y1="780" x2="450" y2="780" class="return"/><text x="600" y="770" text-anchor="middle" class="msg">final / error</text>
+  <line x1="450" y1="815" x2="150" y2="815" class="return"/><text x="300" y="805" text-anchor="middle" class="msg">Vẽ tuyến và mở khóa nút chạy</text>
+</svg>

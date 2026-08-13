@@ -9,14 +9,14 @@ and mobile GUI behavior.
 | Criterion | Points | Current readiness | Main evidence/risk |
 | --- | ---: | --- | --- |
 | Vietnamese context | 10 | Strong | 24 real HCMC landmarks and OSM roads |
-| Graph, dataset, cost | 15 | Strong with limitation | 481/995 graph; hybrid profiles; landmark offsets and boundary connector must be disclosed |
+| Graph, dataset, cost | 15 | Strong | 1,662/3,649 continuous graph; curated access points; hybrid profiles disclosed |
 | Required algorithms | 20 | Strong | Independent BFS, DFS, UCS, A*; all-pair optimality checks |
 | Additional algorithms | 10 | Strong | Dijkstra and Greedy with dedicated tests |
 | Multi-location | 10 | Strong | Nearest, exact, gap, end/return, unique landmark nodes |
 | GUI/visualization | 10 | Strong | Map, visited/frontier/current, path and metrics, `g/h/f` trace detail |
 | Explanation/alternatives | 10 | Strong | Named congestion segments, guarantee, distinct baseline metrics |
 | Technical report | 10 | Strong | Final 13-page illustrated PDF contains verified group identity and references |
-| Demo video | 5 | Missing | Verified 15-slide deck, walkthrough, and script exist; recording/link do not |
+| Demo video | 5 | Missing | Verified 20-slide deck, walkthrough, and script exist; recording/link do not |
 
 ## Critical blockers
 
@@ -32,7 +32,7 @@ and mobile GUI behavior.
 
 ## Verified engineering evidence
 
-- 70 automated backend tests pass.
+- 72 automated backend tests pass.
 - Frontend TypeScript and Vite production build pass.
 - All 552 ordered landmark pairs are reachable.
 - UCS, A*, and Dijkstra return identical optimal cost on all 552 pairs.
@@ -43,7 +43,7 @@ and mobile GUI behavior.
 - 24 landmarks map to 24 distinct graph nodes.
 - Single, Compare, and Multi GUI workflows run on desktop and mobile.
 - Browser console is clean after route animation.
-- The 15-slide deck has sources in speaker notes, renders correctly, and passes
+- The 20-slide deck has sources in speaker notes, renders correctly, and passes
   the automated overflow check.
 - The final 13-page report was rendered and visually checked page by page with
   the five supplied names and student IDs; no placeholder metadata remains.

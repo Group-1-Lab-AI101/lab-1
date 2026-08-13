@@ -167,13 +167,13 @@ individual authorship.
         \textbf{Requirement} & \textbf{Evidence} & \textbf{Status} \\
         \midrule
         Vietnamese traffic scenario & 24 HCMC landmarks and OSM-derived roads & Complete \\
-        Graph, dataset, and cost & 481 nodes, 995 directed edges, weighted traffic cost & Complete \\
+        Graph, dataset, and cost & 1,662 nodes, 3,649 directed edges, weighted traffic cost & Complete \\
         BFS, DFS, UCS, and $A^*$ & Independent implementations with shared contracts & Complete \\
         Two additional algorithms & Dijkstra and Greedy Best-First & Complete \\
         Multi-location planning & Nearest Neighbor and Exact Brute Force & Complete \\
         GUI and visualization & React, Leaflet, REST, and WebSocket step stream & Complete \\
         Explanation and alternatives & Named roads, congestion, guarantee, and baseline comparison & Complete \\
-        Verification & 70 tests, all-pair audit, and frontend production build & Complete \\
+        Verification & 72 tests, all-pair audit, and frontend production build & Complete \\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -241,11 +241,12 @@ that directed edge.
 
 \section{Dataset}
 
-The source GeoJSON was produced from OpenStreetMap using the group's OSMnx
-tooling. The extracts contain 1,075 directed road features, 519 intersection
-records, and approximately 95.083 km of road geometry. The loader normalizes
-duplicate endpoint pairs, joins two adjacent major components, and retains the
-largest strongly connected graph.
+The source GeoJSON is reproducibly generated from OpenStreetMap with OSMnx
+2.1.1. One continuous bounding box covers every landmark plus a 600 m buffer.
+The extract contains 3,740 directed road features, 1,713 intersection/access
+records, and approximately 331.591 km of directed road geometry. The loader
+normalizes duplicate endpoint pairs and retains the largest strongly connected
+graph.
 
 \begin{table}[H]
     \centering
@@ -256,9 +257,9 @@ largest strongly connected graph.
         \toprule
         \textbf{Property} & \textbf{Value} \\
         \midrule
-        Routable nodes & 481 \\
-        Directed edges & 995 \\
-        One-way directed edges & 403 \\
+        Routable nodes & 1,662 \\
+        Directed edges & 3,649 \\
+        One-way directed edges & 1,133 \\
         Tourist landmarks & 24 \\
         Unique assigned landmark nodes & 24 \\
         Traffic profiles & 3 \\
@@ -266,15 +267,12 @@ largest strongly connected graph.
     \end{tabular}
 \end{table}
 
-Every landmark is assigned to a unique nearby routable node so that two
-required stops cannot collapse into one visit. Marker-to-node offsets are shown
-as dashed access lines in the GUI. The mean offset is about 100 m and the
-maximum is 383.5 m for Ben Thanh Market. These access offsets are not included
-in road-route totals and remain a documented limitation.
-
-The two source boundaries are separately clipped. One bidirectional boundary
-connection, represented by two directed simulated edges, joins their major road
-components. The GUI identifies this assumption as \emph{Boundary connector}.
+Every landmark has a display coordinate and a distinct routing-access
+coordinate. Twelve use curated OSM gates/entrances or verified frontage; the
+rest use the nearest drivable road. The generator splits road edges at access
+projections so routes may end mid-block. Mean access-to-road offset is 8.0 m
+and the maximum is 29.9 m. The GUI distinguishes venue centers from access
+points and shows the remaining connector.
 
 The 24 landmarks include Ben Thanh Market, Independence Palace, War Remnants
 Museum, Notre Dame Cathedral, Central Post Office, Nguyen Hue Walking Street,
@@ -754,9 +752,8 @@ python examples\run_full_audit.py
 
 \begin{itemize}
     \item Traffic and risk are deterministic scenarios rather than live data.
-    \item Six landmarks are more than 100 m from their assigned road node; the
-          maximum access offset is 383.5 m.
-    \item One transparent simulated boundary link joins separate source extracts.
+    \item Curated access points should be periodically reviewed against OSM changes.
+    \item Pedestrian-only paths require a separate walking graph.
     \item Exact multi-location search has factorial growth and is capped at
           eight stops.
     \item Runtime varies by hardware and browser load.
@@ -764,10 +761,9 @@ python examples\run_full_audit.py
           signals, vehicle classes, or multiple vehicles.
 \end{itemize}
 
-Future work should use one continuous OSM extract covering every landmark,
-integrate live traffic and flooding feeds, project landmarks to actual road
-edges, support travel modes and turn restrictions, and evaluate a larger
-reproducible scenario suite.
+Future work should integrate live traffic and flooding feeds, add a walking
+mode, support turn restrictions, and evaluate a larger reproducible scenario
+suite.
 
 \section{Conclusion}
 

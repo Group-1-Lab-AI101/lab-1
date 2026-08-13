@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="700" viewBox="0 0 1400 700" role="img" aria-labelledby="title desc">
+  <title id="title">Kiến trúc Saigon Route Lab</title>
+  <desc id="desc">Luồng từ người dùng qua giao diện React, FastAPI, RoutePlanner, các thuật toán và đồ thị OSM.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+    <style>
+      .title{font:700 28px Arial,sans-serif;fill:#0f172a}.label{font:600 18px Arial,sans-serif;fill:#0f172a}.small{font:15px Arial,sans-serif;fill:#334155}.box{stroke-width:2;rx:16}.line{stroke:#334155;stroke-width:2.5;fill:none;marker-end:url(#arrow)}.dash{stroke:#0f766e;stroke-width:2.5;fill:none;stroke-dasharray:8 6;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1400" height="700" fill="#f8fafc"/>
+  <text x="700" y="48" text-anchor="middle" class="title">Kiến trúc và luồng dữ liệu tổng thể</text>
+
+  <rect x="55" y="270" width="180" height="100" fill="#dbeafe" stroke="#2563eb" class="box"/>
+  <text x="145" y="312" text-anchor="middle" class="label">Người dùng</text>
+  <text x="145" y="340" text-anchor="middle" class="small">chọn bài toán</text>
+
+  <rect x="300" y="235" width="260" height="170" fill="#e0f2fe" stroke="#0284c7" class="box"/>
+  <text x="430" y="285" text-anchor="middle" class="label">Giao diện</text>
+  <text x="430" y="318" text-anchor="middle" class="small">React + TypeScript</text>
+  <text x="430" y="346" text-anchor="middle" class="small">Leaflet</text>
+  <text x="430" y="374" text-anchor="middle" class="small">bản đồ + animation</text>
+
+  <rect x="650" y="235" width="220" height="170" fill="#dcfce7" stroke="#16a34a" class="box"/>
+  <text x="760" y="285" text-anchor="middle" class="label">FastAPI</text>
+  <text x="760" y="318" text-anchor="middle" class="small">REST API</text>
+  <text x="760" y="346" text-anchor="middle" class="small">WebSocket</text>
+  <text x="760" y="374" text-anchor="middle" class="small">kiểm tra input</text>
+
+  <rect x="960" y="235" width="260" height="170" fill="#fef3c7" stroke="#d97706" class="box"/>
+  <text x="1090" y="285" text-anchor="middle" class="label">RoutePlanner</text>
+  <text x="1090" y="318" text-anchor="middle" class="small">traffic profile</text>
+  <text x="1090" y="346" text-anchor="middle" class="small">hàm chi phí</text>
+  <text x="1090" y="374" text-anchor="middle" class="small">giải thích + metrics</text>
+
+  <rect x="930" y="500" width="330" height="120" fill="#fae8ff" stroke="#a855f7" class="box"/>
+  <text x="1095" y="542" text-anchor="middle" class="label">Thuật toán</text>
+  <text x="1095" y="574" text-anchor="middle" class="small">BFS · DFS · UCS · A* · Dijkstra · Greedy</text>
+  <text x="1095" y="600" text-anchor="middle" class="small">Exact · Nearest Neighbor</text>
+
+  <rect x="960" y="70" width="260" height="110" fill="#fee2e2" stroke="#dc2626" class="box"/>
+  <text x="1090" y="112" text-anchor="middle" class="label">Đồ thị OSM có hướng</text>
+  <text x="1090" y="145" text-anchor="middle" class="small">node · edge · geometry</text>
+
+  <path d="M235 320 H300" class="line"/>
+  <path d="M560 285 H650" class="line"/>
+  <text x="605" y="268" text-anchor="middle" class="small">REST</text>
+  <path d="M650 355 H560" class="dash"/>
+  <text x="605" y="386" text-anchor="middle" class="small">WebSocket steps</text>
+  <path d="M870 320 H960" class="line"/>
+  <path d="M1090 405 V500" class="line"/>
+  <path d="M1260 560 H1320 V125 H1220" class="line"/>
+
+  <rect x="55" y="520" width="700" height="95" fill="#ffffff" stroke="#cbd5e1" class="box"/>
+  <text x="80" y="552" class="label">Kết quả trả về</text>
+  <text x="80" y="583" class="small">Tuyến cuối · frontier/visited · chi phí · quãng đường · thời gian · bảo đảm tối ưu</text>
+  <path d="M960 370 C850 450,820 565,755 565" class="dash"/>
+</svg>
