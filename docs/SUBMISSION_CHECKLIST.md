@@ -61,7 +61,7 @@ remaining demo items must be verified against the actual video.
 
 ## Final verification
 
-- [x] Backend: `python -m unittest discover -s tests -v` (70 tests passed).
+- [x] Backend: `python -m unittest discover -s tests -v` (72 tests passed).
 - [x] Exhaustive audit: `python examples/run_full_audit.py` (552/552 pairs
   reachable, zero optimal-cost mismatches, zero heuristic violations).
 - [x] Frontend: `pnpm build`.

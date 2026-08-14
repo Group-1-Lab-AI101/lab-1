@@ -44,6 +44,7 @@ Terminal 2 (Frontend):
 ```bash
 cd lab-1-frontend
 npm install
+npm install
 npm run dev
 ```
 

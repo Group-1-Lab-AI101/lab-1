@@ -70,7 +70,7 @@ Nhóm số **1**, gồm năm thành viên. Thông tin trên được lấy từ 
 Repository hiện có đủ sáu thuật toán, ba phương pháp nhiều địa điểm, backend, frontend, trực quan hóa theo bước, giải thích tuyến, dữ liệu OSM và kiểm thử. Ở lần xác minh cuối cho báo cáo này:
 
 - backend đạt **77/77** kiểm thử;
-- frontend đạt **24/24** kiểm thử và build production thành công;
+- frontend đạt **25/25** kiểm thử và build production thành công;
 - giao diện nạp đúng **1.662 đỉnh**, **3.649 cạnh có hướng** và **24 địa danh**;
 - console trình duyệt không ghi nhận lỗi hoặc cảnh báo trong ba luồng thao tác chính.
 
@@ -454,15 +454,6 @@ Nó không phải lời giải hiệu quả cho số waypoint lớn vì tăng tr
 
 Từ vị trí hiện tại, thuật toán chọn waypoint chưa thăm có chi phí cặp nhỏ nhất, lặp đến hết. Sau khi đã có ma trận, phần chọn thứ tự tốn $O(m^2)$. Nearest Neighbor nhanh và dễ giải thích nhưng **không bảo đảm tối ưu**; các phân tích kinh điển về heuristic này cho TSP được trình bày bởi Rosenkrantz, Stearns và Lewis [11].
 
-### 8.5. Held–Karp dynamic programming
-
-Held–Karp dùng trạng thái tập con để tìm thứ tự ghé tối ưu trên bài toán rút gọn giữa các waypoint. Mỗi chi phí cặp vẫn được lấy từ bộ định tuyến đường đi trên đồ thị gốc, sau đó quy hoạch động tối ưu tổng chi phí của chuỗi waypoint.
-
-- Độ phức tạp thời gian: $O(m^2 2^m)$.
-- Độ phức tạp bộ nhớ: $O(m 2^m)$.
-- Hệ thống giới hạn tối đa 12 waypoint để giữ thời gian và bộ nhớ ở mức phù hợp khi trình diễn.
-- Kết quả bảo đảm tối ưu đối với bài toán chi phí cặp đã tính; Exact Brute Force vẫn được giữ cho tối đa 8 waypoint nhằm minh họa phép liệt kê, còn Nearest Neighbor dùng cho tập waypoint lớn hơn.
-
 Hệ thống luôn gắn nhãn `approximate_not_guaranteed` và khi có thể sẽ so với exact để hiển thị gap. Việc một test case cho gap 0% chỉ có nghĩa heuristic tình cờ đạt cùng nghiệm trong case đó.
 
 ---
@@ -484,7 +475,7 @@ Backend dùng FastAPI; tài liệu chính thức mô tả đây là framework AP
 - `lab-1-backend/core/graph.py`: mô hình node/cạnh và thao tác graph.
 - `lab-1-backend/core/costs.py`: hàm chi phí, preset và profile giao thông.
 - `lab-1-backend/core/algorithms/`: sáu thuật toán tìm kiếm.
-- `lab-1-backend/core/multi_location.py`: ma trận cặp, exact brute force, Held–Karp và nearest neighbor.
+- `lab-1-backend/core/multi_location.py`: ma trận cặp, exact brute force và nearest neighbor.
 - `lab-1-backend/core/explanation.py`: diễn giải tuyến và tuyến thay thế.
 - `lab-1-frontend/src/App.tsx`: state và luồng tương tác chính.
 - `lab-1-frontend/src/api.ts`: REST/WebSocket, timeout và hủy request cũ.
@@ -740,7 +731,7 @@ Kết quả nêu trong báo cáo phải được cập nhật nếu dữ liệu 
 - hiệu chuẩn tốc độ/ùn tắc/rủi ro từ dữ liệu chính thống, có ngày và vùng phủ;
 - thêm turn restriction, hình phạt giao lộ và định tuyến đa phương thức;
 - xây quy trình xác minh cổng địa danh với nguồn chính thức, lưu lịch sử chỉnh sửa;
-- thay exact bằng Held–Karp cho quy mô vừa, và nghiên cứu 2-opt/3-opt hoặc metaheuristic cho quy mô lớn;
+- nghiên cứu 2-opt/3-opt hoặc metaheuristic cho quy mô waypoint lớn;
 - đánh giá heuristic mạnh hơn nhưng vẫn chứng minh admissible;
 - benchmark có warm-up, nhiều seed/case, phân vị và môi trường được ghi lại;
 - thêm accessibility, quốc tế hóa và kiểm thử end-to-end trình duyệt;
@@ -754,7 +745,7 @@ Saigon Route Lab đã chuyển yêu cầu tìm kiếm đường đi thành một
 
 Điểm quan trọng nhất không phải một thuật toán thắng mọi tiêu chí. BFS/DFS làm rõ chiến lược không theo chi phí; UCS/Dijkstra cung cấp chuẩn tối ưu với cạnh không âm; A* giữ tối ưu nhưng dùng heuristic để giảm mở rộng trong case tiêu biểu; Greedy cho thấy đánh đổi tốc độ–chất lượng; exact và nearest neighbor thể hiện đánh đổi tương tự ở tầng thứ tự waypoint.
 
-Các kiểm chứng cuối — 77 test backend, 24 test frontend, build production, 552 cặp địa danh, kiểm toán heuristic và ba luồng GUI — cho thấy phiên bản hiện tại hoạt động nhất quán trong phạm vi mô hình. Báo cáo đồng thời giới hạn rõ tuyên bố: dữ liệu đường đến từ OSM, còn traffic/risk là mô phỏng; điểm truy cập gần đường không mặc nhiên là cổng được xác nhận chính thức. Đây là nền tảng đủ tốt cho mục tiêu học thuật của Lab 1 và có lộ trình rõ để tiến tới hệ thống định tuyến thực tế hơn.
+Các kiểm chứng cuối — 77 test backend, 25 test frontend, build production, 552 cặp địa danh, kiểm toán heuristic và ba luồng GUI — cho thấy phiên bản hiện tại hoạt động nhất quán trong phạm vi mô hình. Báo cáo đồng thời giới hạn rõ tuyên bố: dữ liệu đường đến từ OSM, còn traffic/risk là mô phỏng; điểm truy cập gần đường không mặc nhiên là cổng được xác nhận chính thức. Đây là nền tảng đủ tốt cho mục tiêu học thuật của Lab 1 và có lộ trình rõ để tiến tới hệ thống định tuyến thực tế hơn.
 
 ---
 
