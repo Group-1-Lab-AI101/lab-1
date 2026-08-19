@@ -1,348 +1,396 @@
-# BÁO CÁO KỸ THUẬT — SAIGON ROUTE LAB
+# TECHNICAL REPORT — SAIGON ROUTE LAB
 
-> **Ghi chú về trang bìa:** Theo yêu cầu của người dùng, báo cáo này không tạo trang bìa. Khi xuất bản nộp bài, nhóm bổ sung trang bìa theo mẫu của môn học.
+> **Cover page note:** At the user's request, this report does not include a cover page. The team will add one following the course template when preparing the final submission.
 
-## Mục lục
+## Table of Contents
 
-1. [Danh sách hình vẽ](#danh-sách-hình-vẽ)
-2. [Danh sách bảng](#danh-sách-bảng)
-3. [1. Giới thiệu nhóm](#1-giới-thiệu-nhóm)
-4. [2. Giới thiệu bài toán](#2-giới-thiệu-bài-toán)
-5. [3. Mô hình hóa bài toán](#3-mô-hình-hóa-bài-toán)
-6. [4. Dữ liệu và tiền xử lý](#4-dữ-liệu-và-tiền-xử-lý)
-7. [5. Hàm chi phí và kịch bản giao thông](#5-hàm-chi-phí-và-kịch-bản-giao-thông)
-8. [6. Các thuật toán tìm kiếm](#6-các-thuật-toán-tìm-kiếm)
-9. [7. Heuristic và cơ sở bảo đảm của A\*](#7-heuristic-và-cơ-sở-bảo-đảm-của-a)
-10. [8. Bài toán đi qua nhiều địa điểm](#8-bài-toán-đi-qua-nhiều-địa-điểm)
-11. [9. Thiết kế và hiện thực chương trình](#9-thiết-kế-và-hiện-thực-chương-trình)
-12. [10. Giao diện và khả năng giải thích](#10-giao-diện-và-khả-năng-giải-thích)
-13. [11. Thực nghiệm và đánh giá](#11-thực-nghiệm-và-đánh-giá)
-14. [12. Hướng dẫn cài đặt và sử dụng](#12-hướng-dẫn-cài-đặt-và-sử-dụng)
-15. [13. Hạn chế và hướng phát triển](#13-hạn-chế-và-hướng-phát-triển)
-16. [14. Kết luận](#14-kết-luận)
-17. [Tài liệu tham khảo](#tài-liệu-tham-khảo)
-18. [Phụ lục A — Đối chiếu yêu cầu đề bài](#phụ-lục-a--đối-chiếu-yêu-cầu-đề-bài)
-19. [Phụ lục B — Tái lập kiểm chứng](#phụ-lục-b--tái-lập-kiểm-chứng)
-20. [Phụ lục C — Tự chấm điểm](#phụ-lục-c--tự-chấm-điểm)
-21. [Phụ lục D — Danh sách TODO](#phụ-lục-d--danh-sách-todo)
+1. [List of Figures](#list-of-figures)
+2. [List of Tables](#list-of-tables)
+3. [1. Team Introduction](#1-team-introduction)
+4. [2. Problem Introduction](#2-problem-introduction)
+5. [3. Problem Modeling](#3-problem-modeling)
+6. [4. Data and Preprocessing](#4-data-and-preprocessing)
+7. [5. Cost Function and Traffic Scenarios](#5-cost-function-and-traffic-scenarios)
+8. [6. Search Algorithms](#6-search-algorithms)
+9. [7. Heuristic and the Basis for A\*'s Guarantee](#7-heuristic-and-the-basis-for-as-guarantee)
+10. [8. Multi-Location Routing Problem](#8-multi-location-routing-problem)
+11. [9. Program Design and Implementation](#9-program-design-and-implementation)
+12. [10. User Interface and Explainability](#10-user-interface-and-explainability)
+13. [11. Experiments and Evaluation](#11-experiments-and-evaluation)
+14. [12. Installation and Usage Guide](#12-installation-and-usage-guide)
+15. [13. Limitations and Future Work](#13-limitations-and-future-work)
+16. [14. Conclusion](#14-conclusion)
+17. [References](#references)
+18. [Appendix A — Requirement Traceability](#appendix-a--requirement-traceability)
+19. [Appendix B — Reproducing the Verification](#appendix-b--reproducing-the-verification)
+20. [Appendix C — Self-Assessment](#appendix-c--self-assessment)
+21. [Appendix D — TODO List](#appendix-d--todo-list)
 
-## Danh sách hình vẽ
+## List of Figures
 
-- **Hình 1.** Kiến trúc và luồng dữ liệu tổng thể.
-- **Hình 2.** Luồng xử lý một yêu cầu tìm đường.
-- **Hình 3.** Chế độ tìm đường đơn trên giao diện hiện tại.
-- **Hình 4.** Chế độ so sánh sáu thuật toán.
-- **Hình 5.** Chế độ đi qua nhiều địa điểm.
+- **Figure 1.** Overall architecture and data flow.
+- **Figure 2.** Processing flow for a route-search request.
+- **Figure 3.** Single-route mode in the current interface.
+- **Figure 4.** Comparison mode for the six algorithms.
+- **Figure 5.** Multi-location routing mode.
 
-## Danh sách bảng
+## List of Tables
 
-- **Bảng 1.** Thông tin và phân công thành viên.
-- **Bảng 2.** Ánh xạ mô hình đồ thị.
-- **Bảng 3.** Thống kê bộ dữ liệu hiện tại.
-- **Bảng 4.** Các bộ trọng số chi phí.
-- **Bảng 5.** So sánh lý thuyết sáu thuật toán.
-- **Bảng 6.** Diễn tiến ví dụ đồ thị nhỏ.
-- **Bảng 7.** Kết quả benchmark sáu thuật toán.
-- **Bảng 8.** Ảnh hưởng của kịch bản giao thông.
-- **Bảng 9.** Kết quả bài toán nhiều địa điểm.
-- **Bảng 10.** Tự chấm chất lượng bài viết.
+- **Table 1.** Member information and task assignments.
+- **Table 2.** Graph-model mapping.
+- **Table 3.** Current dataset statistics.
+- **Table 4.** Cost-weight presets.
+- **Table 5.** Theoretical comparison of the six algorithms.
+- **Table 6.** Step-by-step progression on the small illustrative graph.
+- **Table 7.** Benchmark results for the six algorithms.
+- **Table 8.** Effects of traffic scenarios.
+- **Table 9.** Multi-location routing results.
+- **Table 10.** Writing-quality self-assessment.
 
 ---
 
-## 1. Giới thiệu nhóm
+## 1. Team Introduction
 
-### 1.1. Thông tin nhóm
+### 1.1. Team Information
 
-**Bảng 1. Thông tin và phân công được ghi nhận trong metadata/tài liệu dự án**
+**Table 1. Member information and assignments recorded in the project metadata/documentation**
 
-| STT | Họ và tên | MSSV | Phần việc chính | Hoàn thành phần được giao* |
+| No. | Full name | Student ID | Primary responsibility | Assigned work completed* |
 |---:|---|---:|---|---:|
-| 1 | Nguyễn Huy Hoàng | 24127378 | BFS, bối cảnh Việt Nam, phần giới thiệu | 100% |
-| 2 | Nguyễn Đăng Hậu | 24127167 | DFS, đồ thị, dữ liệu, hàm chi phí | 100% |
-| 3 | Nguyễn Thành Trung | 24127257 | UCS, giải thích tuyến, phân tích thuật toán | 100% |
-| 4 | Phùng Bảo Khang | 24127052 | A*, heuristic, GUI và trực quan hóa | 100% |
-| 5 | Thái Kiệt | 24127069 | Dijkstra, Greedy, bài toán nhiều địa điểm | 100% |
+| 1 | Nguyễn Huy Hoàng | 24127378 | BFS, Vietnamese context, introduction | 100% |
+| 2 | Nguyễn Đăng Hậu | 24127167 | DFS, graph, data, cost function | 100% |
+| 3 | Nguyễn Thành Trung | 24127257 | UCS, route explanation, algorithm analysis | 100% |
+| 4 | Phùng Bảo Khang | 24127052 | A*, heuristic, GUI, and visualization | 100% |
+| 5 | Thái Kiệt | 24127069 | Dijkstra, Greedy, multi-location routing | 100% |
 
-Nhóm số **1**, gồm năm thành viên. Thông tin trên được lấy từ `docs/group_metadata.json` và đối chiếu với tài liệu dự án. Dấu `*` cho biết tỷ lệ 100% là mức nhóm ghi nhận cho **phần việc đã phân công**, có hiện vật tương ứng trong repository; báo cáo không tuyên bố đã xác minh độc lập mức đóng góp cá nhân và không thay thế việc giảng viên phỏng vấn từng thành viên.
+Team **1** consists of five members. The information above comes from `docs/group_metadata.json` and was cross-checked against the project documentation. The `*` indicates that 100% is the team's recorded completion rate for each member's **assigned work**, with corresponding artifacts in the repository. This report does not claim to have independently verified individual contributions and does not replace the instructor's interview with each member.
 
-### 1.2. Tình trạng hoàn thành
+### 1.2. Completion Status
 
-Repository hiện có đủ sáu thuật toán, ba phương pháp nhiều địa điểm, backend, frontend, trực quan hóa theo bước, giải thích tuyến, dữ liệu OSM và kiểm thử. Ở lần xác minh cuối cho báo cáo này:
+The repository currently contains all six algorithms, three multi-location methods, a backend, a frontend, step-by-step visualization, route explanations, OSM data, and tests. At the final verification for this report:
 
-- backend đạt **77/77** kiểm thử;
-- frontend đạt **25/25** kiểm thử và build production thành công;
-- giao diện nạp đúng **1.662 đỉnh**, **3.649 cạnh có hướng** và **24 địa danh**;
-- console trình duyệt không ghi nhận lỗi hoặc cảnh báo trong ba luồng thao tác chính.
+- the backend passed **77/77** tests;
+- the frontend passed **25/25** tests and completed a production build successfully;
+- the interface loaded exactly **1,662 vertices**, **3,649 directed edges**, and **24 landmarks**;
+- the browser console reported no errors or warnings in the three primary interaction flows.
 
-Các kết quả trên chỉ phản ánh trạng thái mã nguồn tại thời điểm kiểm tra, không phải cam kết rằng hệ thống giao thông thực tế luôn giống mô phỏng.
-
----
-
-## 2. Giới thiệu bài toán
-
-### 2.1. Bối cảnh
-
-Bài toán của nhóm là tìm tuyến tham quan giữa các địa danh ở khu vực trung tâm Thành phố Hồ Chí Minh. Đây là một ngữ cảnh giao thông cụ thể: đường có chiều, tốc độ giả định theo loại đường, mức ùn tắc và rủi ro; điểm xuất phát/đích là địa danh thật; kết quả là chuỗi đoạn đường có tên và hình học để hiển thị trên bản đồ. Vì vậy, hệ thống không coi bản đồ như một mê cung trừu tượng.
-
-Một địa danh lớn thường có hai tọa độ khác nhau về mục đích:
-
-1. **Tọa độ hiển thị** đại diện cho vị trí/khối công trình trên bản đồ.
-2. **Tọa độ truy cập định tuyến** đại diện cho cổng hoặc điểm tiếp cận gần mạng đường xe chạy.
-
-Sự phân biệt này xử lý trực tiếp lỗi thường gặp: chấm địa danh nằm giữa khuôn viên nhưng tuyến kết thúc ở một góc đường khó hiểu. Trong hệ thống, marker xanh biểu diễn địa danh, còn marker/đường nối truy cập cho biết nơi thuật toán thực sự bắt đầu hoặc kết thúc.
-
-### 2.2. Mục tiêu
-
-Hệ thống phải trả lời được hai nhóm câu hỏi:
-
-- **Hai địa điểm:** từ địa danh A đến B, thuật toán nào tìm được tuyến; tuyến có chi phí, quãng đường, thời gian và mức tác động giao thông ra sao?
-- **Nhiều địa điểm:** với một điểm xuất phát và danh sách điểm cần ghé, thứ tự nào tốt hơn theo cùng hàm chi phí?
-
-Ngoài việc trả về đường đi, hệ thống phải giúp người học quan sát quá trình tìm kiếm: tập đã thăm, frontier, thứ tự mở rộng, tuyến cuối, số đỉnh sinh/mở rộng và thời gian chạy. Mục tiêu học thuật là so sánh hành vi và bảo đảm của thuật toán, không chỉ tạo một ứng dụng bản đồ.
-
-### 2.3. Phạm vi và giả định
-
-- Mạng đường là ảnh chụp dữ liệu OSM đã tải về, không phải luồng giao thông trực tiếp.
-- Thời gian, ùn tắc và rủi ro là giá trị mô hình hóa có kiểm soát; không phải đo đạc hiện trường.
-- Tuyến đường dành cho mạng `drive`; hệ thống không khẳng định phù hợp cho người đi bộ, phương tiện công cộng hoặc xe chuyên dụng.
-- Mọi trọng số đều không âm, là điều kiện quan trọng cho UCS, Dijkstra và A*.
-- Kết quả định tuyến là kết quả của mô hình trong phạm vi dữ liệu, không phải chỉ dẫn giao thông pháp lý.
+These results describe the source-code state at the time of verification; they are not a promise that real-world traffic will always match the simulation.
 
 ---
 
-## 3. Mô hình hóa bài toán
+## 2. Problem Introduction
 
-### 3.1. Đồ thị có hướng
+### 2.1. Context
 
-Mạng giao thông được biểu diễn bởi đồ thị có hướng có trọng số:
+The team's problem is to find sightseeing routes among landmarks in central Ho Chi Minh City. This is a concrete traffic setting: roads are directed; assumed speeds depend on road type; congestion and risk levels are modeled; origins and destinations are real landmarks; and each result is a sequence of named road segments with geometry for map display. The system therefore does not treat the map as an abstract maze.
+
+A large landmark commonly needs two coordinates for different purposes:
+
+1. **Display coordinates**, representing the location or building footprint on the map.
+2. **Routing-access coordinates**, representing an entrance or access point near the drivable road network.
+
+This distinction directly addresses a common problem: the landmark dot appears in the middle of a site while the route ends at an unexplained street corner. In this system, the green marker represents the landmark, while the access marker and connector show where the algorithm actually starts or ends.
+
+### 2.2. Objectives
+
+The system must answer two groups of questions:
+
+- **Two locations:** from landmark A to B, which algorithms find a route, and what are its cost, distance, time, and traffic-related effects?
+- **Multiple locations:** given a starting point and a list of required stops, which visiting order is better under the same cost function?
+
+In addition to returning a path, the system must help learners observe the search process: the visited set, frontier, expansion order, final route, numbers of generated and expanded vertices, and runtime. The academic objective is to compare algorithm behavior and guarantees, not merely to create a map application.
+
+### 2.3. Scope and Assumptions
+
+- The road network is a downloaded OSM data snapshot, not a live traffic feed.
+- Time, congestion, and risk are controlled modeled values, not field measurements.
+- Routes use the `drive` network; the system does not claim suitability for walking, public transit, or specialized vehicles.
+- All weights are non-negative, an important condition for UCS, Dijkstra, and A*.
+- Routing results are outputs of the model within the dataset's scope, not legally authoritative traffic directions.
+
+---
+
+## 3. Problem Modeling
+
+### 3.1. Directed Graph
+
+The traffic network is represented as a weighted directed graph:
 
 $$
 G=(V,E).
 $$
 
-**Bảng 2. Ánh xạ từ giao thông sang đồ thị**
+**Table 2. Mapping from traffic concepts to the graph model**
 
-| Thành phần | Biểu diễn | Thuộc tính chính |
+| Component | Representation | Main attributes |
 |---|---|---|
-| Giao lộ/điểm mạng đường | Đỉnh $v\in V$ | ID OSM, vĩ độ, kinh độ |
-| Đoạn đường có chiều | Cạnh $e=(u,v)\in E$ | chiều dài, thời gian, ùn tắc, rủi ro, loại/tên đường, hình học, `oneway` |
-| Địa danh | Bản ghi POI | tọa độ hiển thị, tọa độ truy cập, đỉnh mạng được gắn |
-| Trạng thái tìm kiếm | Đỉnh hiện tại | parent, $g$, $h$, frontier/closed tùy thuật toán |
-| Hành động | Đi theo một cạnh hợp lệ | chỉ theo chiều cạnh trong đồ thị |
-| Trạng thái đầu/đích | Đỉnh truy cập của địa danh | ánh xạ từ ID địa danh sang node mạng |
+| Intersection/road-network point | Vertex $v\in V$ | OSM ID, latitude, longitude |
+| Directed road segment | Edge $e=(u,v)\in E$ | length, time, congestion, risk, road type/name, geometry, `oneway` |
+| Landmark | POI record | display coordinates, access coordinates, attached network vertex |
+| Search state | Current vertex | parent, $g$, $h$, frontier/closed depending on the algorithm |
+| Action | Follow a valid edge | only in the edge's direction in the graph |
+| Initial/goal state | Landmark access vertex | mapping from landmark ID to network node |
 
-Đồ thị có hướng giữ được đường một chiều và hai hướng không nhất thiết có cùng thuộc tính. Một đoạn OSM có nhiều bản ghi song song được chuẩn hóa để thuật toán làm việc trên cạnh hợp lệ có chi phí tốt nhất giữa cặp đỉnh tương ứng.
+The directed graph preserves one-way streets, and opposite directions do not necessarily have identical attributes. Multiple parallel OSM records are normalized so the algorithms operate on the valid edge with the best cost between each corresponding pair of vertices.
 
-### 3.2. Không gian trạng thái và nghiệm
+### 3.2. State Space and Solution
 
-Với bài toán hai điểm, trạng thái đầu là $s$, trạng thái đích là $t$. Một nghiệm là đường đi:
+For the two-location problem, the initial state is $s$ and the goal state is $t$. A solution is a path:
 
 $$
 P=\langle v_0=s,v_1,\ldots,v_k=t\rangle,
 \quad (v_i,v_{i+1})\in E.
 $$
 
-Chi phí đường đi là tổng chi phí các cạnh:
+The path cost is the sum of its edge costs:
 
 $$
 C(P)=\sum_{i=0}^{k-1} c(v_i,v_{i+1}).
 $$
 
-Với bài toán nhiều địa điểm, ngoài đường đi trên đồ thị còn có một lớp quyết định thứ tự ghé các waypoint. Phần 8 trình bày rõ cách rút gọn bài toán này về ma trận chi phí ngắn nhất giữa các địa danh.
+For the multi-location problem, a second decision layer determines the visiting order of the waypoints in addition to paths on the road graph. Section 8 explains how this problem is reduced to a shortest-path cost matrix among landmarks.
 
-### 3.3. Điều kiện dừng và trường hợp không có đường
+### 3.3. Termination and No-Path Cases
 
-- BFS/DFS dừng khi lấy đích ra khỏi cấu trúc frontier.
-- UCS/Dijkstra/A* dừng khi đích được lấy ra với nhãn ưu tiên tốt nhất đã xác lập.
-- Greedy dừng khi lấy đích ra khỏi hàng đợi ưu tiên heuristic.
-- Nếu frontier rỗng trước khi gặp đích, hệ thống trả trạng thái không tìm thấy đường thay vì chạy vô hạn.
+- BFS/DFS terminate when the goal is removed from the frontier structure.
+- UCS/Dijkstra/A* terminate when the goal is removed with its established best-priority label.
+- Greedy terminates when the goal is removed from the heuristic priority queue.
+- If the frontier becomes empty before the goal is reached, the system returns a no-path result instead of running indefinitely.
 
-Trên dữ liệu hiện tại, kiểm toán 552 cặp có thứ tự giữa 24 địa danh cho thấy cả **552/552** cặp đều có đường. Kết quả này là bằng chứng thực nghiệm cho dataset hiện tại; xử lý “không có đường” vẫn được giữ trong mã để an toàn với dataset khác.
+On the current dataset, an audit of all 552 ordered pairs among the 24 landmarks found paths for **552/552** pairs. This is empirical evidence for the current dataset; no-path handling remains in the code for safety with other datasets.
 
 ---
 
-## 4. Dữ liệu và tiền xử lý
+## 4. Data and Preprocessing
 
-### 4.1. Nguồn dữ liệu
+### 4.1. Data Sources
 
-Dữ liệu đường được lấy từ **OpenStreetMap contributors** thông qua OSMnx 2.1.1, với loại mạng `drive`. OpenStreetMap công bố dữ liệu theo ODbL và yêu cầu ghi công; báo cáo và giao diện cần duy trì attribution phù hợp [7], [8]. OSMnx là thư viện chính thức được dùng để tải và mô hình hóa mạng đường từ OSM [9], [10].
+Road data was obtained from **OpenStreetMap contributors** through OSMnx 2.1.1 using the `drive` network type. OpenStreetMap publishes its data under the ODbL and requires attribution; both the report and interface must retain appropriate attribution [7], [8]. OSMnx is the official library used to download and model road networks from OSM [9], [10].
 
-Phạm vi tải là bounding box liên tục bao quanh tập địa danh, nới thêm 600 m:
+The download area is one continuous bounding box enclosing all landmarks with an additional 600 m margin:
 
 $$
 [106.6767133,\ 10.7645721,\ 106.7115867,\ 10.7959279].
 $$
 
-Tệp nguồn và dấu vết tái lập nằm trong:
+Source files and reproducibility records are stored in:
 
 - `lab-1-backend/data/osm/nodes.geojson`;
 - `lab-1-backend/data/osm/roads.geojson`;
 - `lab-1-backend/data/osm/summary.json`;
 - `lab-1-backend/data/landmarks.json`.
 
-### 4.2. Thống kê dữ liệu
+### 4.2. Dataset Statistics
 
-**Bảng 3. Thống kê bộ dữ liệu ở lần kiểm tra cuối**
+**Table 3. Dataset statistics at the final verification**
 
-| Chỉ số | Giá trị |
+| Metric | Value |
 |---|---:|
-| Node/giao điểm trong dữ liệu tải | 1.713 |
-| Road feature trong dữ liệu tải | 3.740 |
-| Tổng chiều dài hình học đường có hướng | 331,591 km |
-| Đỉnh định tuyến sau chuẩn hóa | 1.662 |
-| Cạnh có hướng sau chuẩn hóa | 3.649 |
-| Địa danh | 24 |
-| Đỉnh địa danh duy nhất | 24 |
-| Connector mô phỏng | 0 |
-| Cặp địa danh có thứ tự kiểm tra | 552 |
-| Cặp đi được | 552 |
+| Nodes/intersections in the downloaded data | 1,713 |
+| Road features in the downloaded data | 3,740 |
+| Total directed-road geometry length | 331.591 km |
+| Routable vertices after normalization | 1,662 |
+| Directed edges after normalization | 3,649 |
+| Landmarks | 24 |
+| Unique landmark vertices | 24 |
+| Simulated connectors | 0 |
+| Ordered landmark pairs checked | 552 |
+| Reachable pairs | 552 |
 
-Quy mô này vượt yêu cầu tối thiểu 20 đỉnh và 30 cạnh của đề. Không có connector mô phỏng trong đồ thị cuối; địa danh được gắn vào node đường thật thông qua điểm truy cập.
+This scale exceeds the assignment's minimum requirement of 20 vertices and 30 edges. The final graph contains no simulated connectors; landmarks are attached to real road nodes through access points.
 
-### 4.3. Tập địa danh
+### 4.3. Landmark Set
 
-Dataset gồm 24 địa danh: Chợ Bến Thành; Dinh Độc Lập; Bảo tàng Chứng tích Chiến tranh; Nhà thờ Đức Bà; Bưu điện Trung tâm; Phố đi bộ Nguyễn Huệ; Bến Bạch Đằng; Nhà hát Thành phố; Bảo tàng Thành phố Hồ Chí Minh; Công viên Tao Đàn; Đường sách Thành phố Hồ Chí Minh; Vincom Center Đồng Khởi; Saigon Centre; Bitexco Financial Tower; Công viên Lê Văn Tám; Bảo tàng Mỹ thuật; Nhà thờ Tân Định; Bảo tàng Phụ nữ Nam Bộ; Hồ Con Rùa; Diamond Plaza; Thảo Cầm Viên Sài Gòn; Trụ sở Ủy ban Nhân dân Thành phố; Chùa Vĩnh Nghiêm; Nhà Văn hóa Thanh niên.
+The dataset contains 24 landmarks: Chợ Bến Thành; Dinh Độc Lập; Bảo tàng Chứng tích Chiến tranh; Nhà thờ Đức Bà; Bưu điện Trung tâm; Phố đi bộ Nguyễn Huệ; Bến Bạch Đằng; Nhà hát Thành phố; Bảo tàng Thành phố Hồ Chí Minh; Công viên Tao Đàn; Đường sách Thành phố Hồ Chí Minh; Vincom Center Đồng Khởi; Saigon Centre; Bitexco Financial Tower; Công viên Lê Văn Tám; Bảo tàng Mỹ thuật; Nhà thờ Tân Định; Bảo tàng Phụ nữ Nam Bộ; Hồ Con Rùa; Diamond Plaza; Thảo Cầm Viên Sài Gòn; Trụ sở Ủy ban Nhân dân Thành phố; Chùa Vĩnh Nghiêm; and Nhà Văn hóa Thanh niên.
 
-Phân bố nhãn dữ liệu: 5 kiến trúc, 4 văn hóa, 4 bảo tàng, 3 công viên, 3 mua sắm, 2 không gian công cộng, 1 di tích, 1 chợ và 1 ven sông. Nhãn chỉ phục vụ mô tả/hiển thị; thuật toán định tuyến không ưu tiên địa danh theo loại.
+The data labels are distributed as follows: 5 architecture, 4 culture, 4 museum, 3 park, 3 shopping, 2 public-space, 1 historic-site, 1 market, and 1 riverfront landmark. These labels are only used for description and display; the routing algorithms do not prioritize landmarks by type.
 
-### 4.4. Điểm truy cập của địa danh
+### 4.4. Landmark Access Points
 
-Mỗi bản ghi có `latitude/longitude` để hiển thị và `routing_latitude/routing_longitude` để gắn mạng. Có 12 ghi đè truy cập được tuyển chọn; các trường hợp còn lại dùng điểm tiếp cận đường xe chạy gần nhất. Ví dụ:
+Each record contains `latitude/longitude` for display and `routing_latitude/routing_longitude` for network attachment. Twelve curated access overrides are included; the remaining cases use the nearest drivable-road access point. Examples include:
 
-- Chợ Bến Thành: Cửa Nam, gần Công trường Quách Thị Trang (OSM node 2893838360).
-- Dinh Độc Lập: cổng xe trên đường Nam Kỳ Khởi Nghĩa (OSM node 5403245162).
-- Nhà thờ Đức Bà: lối chính tại Công trường Công xã Paris (OSM node 7501051348).
-- Bưu điện Trung tâm: điểm phía mặt tiền Công trường Công xã Paris được tuyển chọn thủ công.
-- Công viên Tao Đàn: cổng sát đường Cách Mạng Tháng Tám (OSM node 13306234429).
+- Chợ Bến Thành: South Gate, near Công trường Quách Thị Trang (OSM node 2893838360).
+- Dinh Độc Lập: vehicle entrance on Nam Kỳ Khởi Nghĩa Street (OSM node 5403245162).
+- Nhà thờ Đức Bà: main access at Công trường Công xã Paris (OSM node 7501051348).
+- Bưu điện Trung tâm: a manually curated point on the Công trường Công xã Paris frontage.
+- Công viên Tao Đàn: entrance next to Cách Mạng Tháng Tám Street (OSM node 13306234429).
 
-Độ lệch từ điểm truy cập đến node định tuyến có trung bình **8,02 m**, lớn nhất **29,9 m**, và không có trường hợp nào vượt 100 m. Các con số này được tính từ dữ liệu dự án. Chúng chứng minh phép snap gần mạng đường, nhưng **không đồng nghĩa mọi điểm đều là “cổng chính thức” đã được cơ quan quản lý xác nhận**. Vì OSM có thể thay đổi, trường `access_source` cần được tái kiểm tra nếu tải lại dữ liệu.
+The offset from each access point to its routing node averages **8.02 m**, with a maximum of **29.9 m**, and no case exceeds 100 m. These figures are calculated from the project data. They demonstrate snapping near the road network, but **do not mean that every point is an “official entrance” confirmed by the relevant authority**. Because OSM may change, the `access_source` field must be rechecked whenever the data is downloaded again.
 
-### 4.5. Tiền xử lý và kiểm soát chất lượng
+### 4.5. Preprocessing and Quality Control
 
-Quy trình:
+The process is:
 
-1. tải mạng `drive` liên tục quanh toàn bộ địa danh;
-2. đọc node, cạnh, hình học và metadata OSM;
-3. chuẩn hóa tên/loại đường, tốc độ mặc định và hướng cạnh;
-4. tính chiều dài km, thời gian phút, mức ùn tắc và rủi ro cơ sở;
-5. gắn từng địa danh vào node gần tọa độ truy cập;
-6. kiểm tra ID, số hữu hạn, trọng số không âm và tính đi được;
-7. xuất summary và chạy kiểm toán toàn bộ cặp.
+1. download one continuous `drive` network around all landmarks;
+2. read OSM nodes, edges, geometry, and metadata;
+3. normalize road names/types, default speeds, and edge directions;
+4. calculate length in kilometers, time in minutes, and baseline congestion and risk;
+5. attach each landmark to the node nearest its access coordinates;
+6. validate IDs, finite values, non-negative weights, and reachability;
+7. export the summary and audit all landmark pairs.
 
-Rủi ro dữ liệu chính là OSM thiếu lối vào, tên đường không đồng nhất hoặc lỗi mã hóa tiếng Việt. Biện pháp hiện tại là lưu nguồn truy cập theo từng địa danh, hiển thị riêng marker trung tâm/điểm vào và có bài kiểm toán khoảng cách snap.
+The principal data risks are missing OSM entrances, inconsistent road names, and Vietnamese text-encoding errors. Current mitigations include recording an access source for every landmark, displaying center/access markers separately, and auditing snap distances.
 
 ---
 
-## 5. Hàm chi phí và kịch bản giao thông
+## 5. Cost Function and Traffic Scenarios
 
-### 5.1. Hàm chi phí nhiều tiêu chí
+### 5.1. Multi-Criteria Cost Function
 
-Đề bài yêu cầu chi phí không chỉ là khoảng cách. Mỗi cạnh dùng:
+The assignment requires cost to include more than distance. Each edge uses:
 
 $$
 c(e)=\alpha d(e)+\beta t(e)+\gamma q(e)+\delta r(e),
 $$
 
-trong đó:
+where:
 
-- $d(e)$: chiều dài cạnh theo km;
-- $t(e)$: thời gian ước lượng theo phút;
-- $q(e)$: mức ùn tắc không thứ nguyên;
-- $r(e)$: mức rủi ro không thứ nguyên;
-- $\alpha,\beta,\gamma,\delta\ge 0$: trọng số do tiêu chí lựa chọn.
+- $d(e)$: edge length in kilometers;
+- $t(e)$: estimated time in minutes;
+- $q(e)$: dimensionless congestion level;
+- $r(e)$: dimensionless risk level;
+- $\alpha,\beta,\gamma,\delta\ge 0$: weights determined by the selected criterion.
 
-Thời gian cơ sở được tính từ chiều dài và tốc độ mặc định theo loại đường:
+Baseline time is calculated from length and the default speed for each road type:
 
 $$
 t(e)=\frac{d(e)}{v(e)}\times 60.
 $$
 
-Các tốc độ, ùn tắc và rủi ro là **giả định mô phỏng của dự án**, không phải dữ liệu cảm biến. Mục đích của chúng là tạo môi trường lặp lại được để so sánh thuật toán.
+The speed, congestion, and risk values are **project simulation assumptions**, not sensor data. Their purpose is to create a reproducible environment for comparing algorithms.
 
-### 5.2. Các bộ trọng số
+### 5.2. Weight Presets
 
-**Bảng 4. Các bộ trọng số hiện thực trong hệ thống**
+**Table 4. Weight presets implemented in the system**
 
-| Tiêu chí | $\alpha$ khoảng cách | $\beta$ thời gian | $\gamma$ ùn tắc | $\delta$ rủi ro | Ý nghĩa |
+| Criterion | Distance $\alpha$ | Time $\beta$ | Congestion $\gamma$ | Risk $\delta$ | Meaning |
 |---|---:|---:|---:|---:|---|
-| Cân bằng | 1,00 | 0,40 | 0,08 | 0,12 | Không ưu tiên tuyệt đối một yếu tố |
-| Nhanh nhất | 0,20 | 1,20 | 0,04 | 0,08 | Nhấn mạnh phút di chuyển |
-| Ngắn nhất | 1,50 | 0,05 | 0,01 | 0,03 | Nhấn mạnh km |
-| Ít ùn tắc | 0,70 | 0,30 | 0,25 | 0,15 | Phạt đoạn có congestion cao |
-| Ít rủi ro | 0,50 | 0,30 | 0,08 | 0,80 | Phạt đoạn có risk cao |
+| Balanced | 1.00 | 0.40 | 0.08 | 0.12 | Does not give absolute priority to any one factor |
+| Fastest | 0.20 | 1.20 | 0.04 | 0.08 | Emphasizes travel time in minutes |
+| Shortest | 1.50 | 0.05 | 0.01 | 0.03 | Emphasizes distance in kilometers |
+| Low congestion | 0.70 | 0.30 | 0.25 | 0.15 | Penalizes segments with high congestion |
+| Low risk | 0.50 | 0.30 | 0.08 | 0.80 | Penalizes segments with high risk |
 
-Đơn vị của tổng chi phí là “điểm chi phí mô hình”, không phải km hay phút. Vì các đại lượng có thang đo khác nhau, thay trọng số có thể thay tuyến. Kiểm toán 552 cặp ghi nhận **351 cặp** đổi tuyến khi đổi tiêu chí; điều này cho thấy các preset có ảnh hưởng thực, không chỉ đổi nhãn giao diện.
+The unit of total cost is a “model cost score,” not kilometers or minutes. Because the quantities use different scales, changing the weights can change the route. The 552-pair audit found that **351 pairs** changed route when the criterion changed; this shows that the presets have a real effect rather than merely changing an interface label.
 
-### 5.3. Kịch bản giao thông
+### 5.3. Traffic Scenarios
 
-Ba profile được áp dụng trước khi tìm kiếm:
+Three deterministic profiles are applied to a copied graph before search. For an edge $e$, let
+$t(e)$ denote its baseline time, $q(e)$ its baseline congestion, and $r(e)$ its baseline
+risk. The edge distance is unchanged by every profile.
 
-- **Bình thường:** giữ nguyên thời gian, congestion, risk cơ sở.
-- **Giờ cao điểm:** tăng thời gian theo congestion và loại đường; tăng congestion tối đa đến 5.
-- **Trời mưa:** tăng thời gian theo risk, tăng congestion 0,4 và risk 1,2, đều chặn ở 5.
+**Normal** preserves all baseline values:
 
-Các phép biến đổi là xác định, nên cùng input cho cùng output. Kiểm toán toàn bộ cặp ghi nhận **82 cặp** đổi tuyến khi đổi profile. Đây là bằng chứng rằng giao thông mô phỏng tác động đến quyết định. Không nên diễn giải chúng như dự báo giao thông trực tiếp.
+$$
+t_N(e)=t(e),
+\qquad q_N(e)=q(e),
+\qquad r_N(e)=r(e).
+$$
+
+**Rush hour** models heavier congestion and slower travel, with a larger time penalty on
+primary and secondary roads. Define the road-class factor:
+
+$$
+a(e)=
+\begin{cases}
+0.18, & \text{if the road type is primary, primary\_link, secondary, or secondary\_link},\\
+0.05, & \text{otherwise}.
+\end{cases}
+$$
+
+The transformed values are:
+
+$$
+t_R(e)=t(e)\left(1.25+a(e)q(e)\right),
+\qquad q_R(e)=\min\left(5,q(e)+1.0\right),
+\qquad r_R(e)=r(e).
+$$
+
+Thus, rush hour increases time according to both baseline congestion and road class,
+increases congestion by $1.0$ with an upper bound of $5$, and leaves risk unchanged.
+
+**Rainy** models slower travel together with additional congestion and road risk:
+
+$$
+t_{\mathit{rain}}(e)=t(e)\left(1.25+0.05r(e)\right),
+\qquad q_{\mathit{rain}}(e)=\min\left(5,q(e)+0.4\right),
+\qquad r_{\mathit{rain}}(e)=\min\left(5,r(e)+1.2\right).
+$$
+
+Therefore, rainy conditions increase time according to baseline risk, increase congestion
+by $0.4$, and increase risk by $1.2$; both updated metrics are capped at $5$.
+
+The transformations are deterministic, so identical inputs produce identical outputs. The full-pair audit found that **82 pairs** changed route when the profile changed. This is evidence that the simulated traffic affects route decisions. These results must not be interpreted as live traffic predictions.
 
 ---
 
-## 6. Các thuật toán tìm kiếm
+## 6. Search Algorithms
 
-### 6.1. Tổng quan lý thuyết
+### 6.1. Theoretical Overview
 
-Các định nghĩa BFS/DFS được đối chiếu với Dictionary of Algorithms and Data Structures của NIST [2], [3]; Dijkstra theo công trình gốc năm 1959 [4]; A* theo Hart, Nilsson và Raphael [5].
+The BFS/DFS definitions were checked against NIST's Dictionary of Algorithms and Data Structures [2], [3], Dijkstra against the original 1959 paper [4], and A* against Hart, Nilsson, and Raphael [5].
 
-**Bảng 5. So sánh lý thuyết sáu thuật toán trong hiện thực này**
+**Table 5. Theoretical comparison of the six algorithms in this implementation**
 
-| Thuật toán | Frontier/ưu tiên | Đầy đủ trên đồ thị hữu hạn | Tối ưu theo chi phí $c$ | Thời gian xấu nhất | Bộ nhớ phụ |
+| Algorithm | Frontier/priority | Complete on a finite graph | Optimal under cost $c$ | Worst-case time | Auxiliary memory |
 |---|---|---|---|---|---|
-| BFS | FIFO | Có nếu có tập visited | Không; chỉ tối ưu số cạnh | $O(V+E)$ | $O(V)$ |
-| DFS | Stack | Có nếu có tập visited | Không | $O(V+E)$ | $O(V)$ |
-| UCS | nhỏ nhất $g$ | Có với chi phí không âm và đồ thị hữu hạn | Có | $O((V+E)\log V)$ | $O(V)$ |
-| A* | nhỏ nhất $f=g+h$ | Có trong điều kiện hiện tại | Có nếu $h$ nhất quán | xấu nhất $O((V+E)\log V)$ | $O(V)$ |
-| Dijkstra | nhỏ nhất khoảng cách từ nguồn | Có | Có với cạnh không âm | $O((V+E)\log V)$ | $O(V)$ |
-| Greedy | nhỏ nhất $h$ | Có trong hiện thực có closed set trên đồ thị hữu hạn | Không | xấu nhất $O((V+E)\log V)$ | $O(V)$ |
+| BFS | FIFO | Yes, with a visited set | No; only minimizes edge count | $O(V+E)$ | $O(V)$ |
+| DFS | Stack | Yes, with a visited set | No | $O(V+E)$ | $O(V)$ |
+| UCS | smallest $g$ | Yes, with non-negative costs and a finite graph | Yes | $O((V+E)\log V)$ | $O(V)$ |
+| A* | smallest $f=g+h$ | Yes under the present conditions | Yes if $h$ is consistent | worst case $O((V+E)\log V)$ | $O(V)$ |
+| Dijkstra | smallest source distance | Yes | Yes with non-negative edges | $O((V+E)\log V)$ | $O(V)$ |
+| Greedy | smallest $h$ | Yes in this implementation, which uses a closed set on a finite graph | No | worst case $O((V+E)\log V)$ | $O(V)$ |
 
-Độ phức tạp của các thuật toán ưu tiên giả định heap nhị phân; hằng số thời gian và thứ tự duyệt phụ thuộc hiện thực. “Đầy đủ” ở đây có nghĩa tìm được một đường nếu tồn tại trong đồ thị hữu hạn đang xét, không phải bảo đảm trên không gian vô hạn.
+The complexity of priority-based algorithms assumes a binary heap; runtime constants and traversal order depend on the implementation. “Complete” here means that an existing path is found in the finite graph under consideration, not a guarantee over an infinite state space.
 
 ### 6.2. Breadth-First Search (BFS)
 
-BFS mở rộng theo độ sâu tăng dần bằng hàng đợi FIFO. Khi gặp một đỉnh lần đầu, thuật toán gán parent và không đưa lại vào frontier. Vì mỗi lần tiến qua đúng một cạnh, BFS tối ưu **số cạnh**, nhưng không tối ưu hàm chi phí có độ dài/thời gian/ùn tắc/rủi ro.
+BFS expands vertices in increasing depth order using a FIFO queue. When a vertex is first discovered, the algorithm assigns its parent and does not insert it into the frontier again. Because every move traverses exactly one edge, BFS minimizes the **number of edges**, but it does not minimize the cost function that includes length, time, congestion, and risk.
 
-Điểm mạnh là nguyên lý đơn giản, dễ trực quan hóa và là baseline không thông tin. Điểm yếu là có thể mở rộng nhiều node và chọn tuyến nhiều chi phí chỉ vì tuyến đó có ít đoạn hơn.
+Its strength is a simple principle that is easy to visualize and provides an uninformed baseline. Its weakness is that it may expand many nodes and choose an expensive route simply because that route contains fewer segments.
 
 ### 6.3. Depth-First Search (DFS)
 
-DFS dùng stack và đi sâu theo nhánh trước. `visited/closed` ngăn chu trình làm thuật toán chạy mãi. Kết quả nhạy với thứ tự kề; tuyến đầu tiên gặp đích không có bảo đảm về số cạnh hoặc chi phí.
+DFS uses a stack and follows one branch deeply before backtracking. The `visited/closed` set prevents cycles from making the algorithm run forever. Results are sensitive to adjacency order; the first route that reaches the goal has no guarantee on edge count or cost.
 
-DFS hữu ích để minh họa ảnh hưởng của chiến lược frontier và kiểm tra khả năng đi được, nhưng không phải lựa chọn phù hợp khi mục tiêu là tuyến giao thông tốt nhất.
+DFS is useful for illustrating the effect of frontier strategy and testing reachability, but it is not an appropriate choice when the objective is the best traffic route.
 
 ### 6.4. Uniform Cost Search (UCS)
 
-UCS ưu tiên tổng chi phí tích lũy $g(n)$. Khi tìm được đường rẻ hơn tới một node, thuật toán cập nhật nhãn và parent. Với chi phí cạnh không âm, lúc đích được pop với nhãn tốt nhất, đường thu được là tối ưu.
+UCS prioritizes accumulated cost $g(n)$. When it finds a cheaper path to a node, it updates the node's label and parent. With non-negative edge costs, once the goal is popped with its best label, the resulting path is optimal.
 
-Trong bài toán một nguồn–một đích, UCS và Dijkstra có thể có cùng thứ tự mở rộng. Dự án vẫn tách hai lớp để làm rõ cách trình bày trong AI search và khả năng tái sử dụng single-source của Dijkstra ở bài toán nhiều điểm.
+In a single-source, single-goal problem, UCS and Dijkstra may have the same expansion order. The project nevertheless keeps them as separate classes to clarify their presentation in AI search and to support Dijkstra's single-source reuse in the multi-location problem.
 
 ### 6.5. A* Search
 
-A* ưu tiên:
+A* prioritizes:
 
 $$
 f(n)=g(n)+h(n).
 $$
 
-Trong đó $g$ là chi phí đã đi và $h$ ước lượng phần còn lại. Nếu heuristic có thông tin, A* thường mở rộng ít node hơn UCS; nếu $h=0$, hành vi trở về UCS. Bảo đảm tối ưu của dự án được phân tích ở phần 7, không chỉ giả định.
+Here, $g$ is the cost already paid and $h$ estimates the remaining cost. An informative heuristic often allows A* to expand fewer nodes than UCS; if $h=0$, its behavior reduces to UCS. The project's optimality guarantee is analyzed in Section 7 rather than merely assumed.
 
 ### 6.6. Dijkstra
 
-Dijkstra dùng nhãn khoảng cách/chi phí nhỏ nhất từ một nguồn và heap. Với cạnh không âm, thuật toán cho đường ngắn nhất theo hàm chi phí đã chọn [4]. Helper single-source tạo cây đường đi từ một địa danh tới nhiều địa danh khác, hữu ích khi lập ma trận chi phí cho bài toán nhiều điểm.
+Dijkstra uses a heap and labels representing the smallest distance/cost from one source. With non-negative edges, it returns a shortest path under the selected cost function [4]. The single-source helper builds a shortest-path tree from one landmark to many others, which is useful when constructing the cost matrix for the multi-location problem.
 
 ### 6.7. Greedy Best-First Search
 
-Greedy chỉ ưu tiên $h(n)$, bỏ qua chi phí đã trả $g(n)$. Nó có thể tiến nhanh về mặt hình học nhưng đi vào nhánh đắt. Vì vậy, hệ thống ghi rõ `not_guaranteed` và dùng Greedy như thuật toán bổ sung để so sánh, không tuyên bố tối ưu.
+Greedy prioritizes only $h(n)$ and ignores the cost already paid, $g(n)$. It may advance quickly in geometric terms while entering an expensive branch. The system therefore labels it `not_guaranteed` and uses Greedy as an additional comparison algorithm without claiming optimality.
 
-### 6.8. Ví dụ minh họa do nhóm thiết kế
+### 6.8. Team-Designed Illustrative Example
 
-Xét đồ thị:
+```mermaid
+flowchart LR
+    A -. 8 .-> B
+    A -- 1 --> C
+    B -. 1 .-> G
+    C -. 1 .-> D
+    D -. 1 .-> G
+```
+
+Consider the graph:
 
 ```text
              8                 1
@@ -354,55 +402,55 @@ Xét đồ thị:
              1                 1
 ```
 
-Thứ tự kề tại A là B rồi C. Heuristic đến G: $h(A)=2,h(B)=0,h(C)=2,h(D)=1,h(G)=0$. Có hai tuyến: A–B–G gồm 2 cạnh, chi phí 9; A–C–D–G gồm 3 cạnh, chi phí 3.
+The adjacency order at A is B, then C. Heuristic values to G are $h(A)=2,h(B)=0,h(C)=2,h(D)=1,h(G)=0$. There are two routes: A–B–G has 2 edges and cost 9; A–C–D–G has 3 edges and cost 3.
 
-**Bảng 6. Kết quả trên ví dụ nhỏ**
+**Table 6. Results on the small example**
 
-| Thuật toán | Thứ tự mở rộng tiêu biểu | Tuyến | Chi phí | Nhận xét |
+| Algorithm | Representative expansion order | Route | Cost | Comment |
 |---|---|---|---:|---|
-| BFS | A, B, C, G | A–B–G | 9 | tối ưu số cạnh |
-| DFS | A, B, G | A–B–G | 9 | phụ thuộc thứ tự kề |
-| UCS | A(0), C(1), D(2), G(3) | A–C–D–G | 3 | tối ưu chi phí |
-| A* | A, C, D, G | A–C–D–G | 3 | heuristic hợp lệ |
-| Dijkstra | A(0), C(1), D(2), G(3) | A–C–D–G | 3 | tối ưu chi phí |
-| Greedy | A, B, G | A–B–G | 9 | bị hấp dẫn bởi $h(B)=0$ |
+| BFS | A, B, C, G | A–B–G | 9 | minimizes edge count |
+| DFS | A, B, G | A–B–G | 9 | depends on adjacency order |
+| UCS | A(0), C(1), D(2), G(3) | A–C–D–G | 3 | cost-optimal |
+| A* | A, C, D, G | A–C–D–G | 3 | valid heuristic |
+| Dijkstra | A(0), C(1), D(2), G(3) | A–C–D–G | 3 | cost-optimal |
+| Greedy | A, B, G | A–B–G | 9 | attracted by $h(B)=0$ |
 
-Ví dụ này tách rõ “ít cạnh”, “đi sâu”, “rẻ nhất” và “trông có vẻ gần đích”. Fixture tương ứng có trong kiểm thử dự án để tránh ví dụ chỉ tồn tại trên giấy.
+This example clearly separates “fewest edges,” “depth first,” “lowest cost,” and “appears close to the goal.” A corresponding fixture is included in the project tests so that the example does not exist only on paper.
 
 ---
 
-## 7. Heuristic và cơ sở bảo đảm của A*
+## 7. Heuristic and the Basis for A*'s Guarantee
 
-### 7.1. Định nghĩa
+### 7.1. Definition
 
-Heuristic cơ sở là khoảng cách cung lớn Haversine giữa node hiện tại và đích:
+The base heuristic is the great-circle Haversine distance between the current node and the goal:
 
 $$
 d_H=2R\arcsin\sqrt{\sin^2\frac{\Delta\varphi}{2}+
 \cos\varphi_1\cos\varphi_2\sin^2\frac{\Delta\lambda}{2}},
 $$
 
-với $R=6371{,}0088$ km. A* dùng:
+where $R=6371.0088$ km. A* uses:
 
 $$
 h(n)=\alpha d_H(n,t).
 $$
 
-Chỉ hệ số khoảng cách $\alpha$ được dùng; các thành phần thời gian, ùn tắc và rủi ro không được “đoán” thêm. Cách này bảo thủ nhưng giúp chứng minh tính hợp lệ.
+Only the distance coefficient $\alpha$ is used; no additional time, congestion, or risk component is “guessed.” This conservative approach makes the validity proof possible.
 
-### 7.2. Tính chấp nhận được
+### 7.2. Admissibility
 
-Với mọi cạnh, chiều dài đường thực không nhỏ hơn khoảng cách thẳng giữa hai đầu; các thành phần còn lại và trọng số đều không âm. Do đó:
+For every edge, the actual road length is no shorter than the straight-line distance between its endpoints, and all remaining components and weights are non-negative. Therefore:
 
 $$
 c(e)\ge \alpha d(e)\ge \alpha d_H(u,v).
 $$
 
-Theo bất đẳng thức tam giác, khoảng cách thẳng từ node đến đích không vượt tổng chiều dài của bất kỳ đường đi nào. Vì vậy $h(n)\le h^*(n)$: heuristic không đánh giá quá chi phí còn lại và là **admissible**.
+By the triangle inequality, the straight-line distance from a node to the goal does not exceed the total length of any path between them. Thus $h(n)\le h^*(n)$: the heuristic never overestimates the remaining cost and is **admissible**.
 
-### 7.3. Tính nhất quán
+### 7.3. Consistency
 
-Với cạnh $(u,v)$:
+For an edge $(u,v)$:
 
 $$
 h(u)=\alpha d_H(u,t)
@@ -410,243 +458,243 @@ h(u)=\alpha d_H(u,t)
 \le c(u,v)+h(v).
 $$
 
-Do đó heuristic là **consistent**. Hệ quả là A* graph-search không cần chấp nhận một lời giải đích chưa tối ưu; khi đích được lấy ra theo $f$, đường đi tối ưu theo $c$ đã được xác lập.
+The heuristic is therefore **consistent**. Consequently, A* graph search does not need to accept a suboptimal goal solution; when the goal is removed according to $f$, the path that is optimal under $c$ has been established.
 
-### 7.4. Kiểm toán thực nghiệm
+### 7.4. Empirical Audit
 
-Ngoài chứng minh, script kiểm toán kiểm tra tất cả:
+In addition to the proof, the audit script checks all:
 
-- 5 preset trọng số;
-- 24 đích;
-- 3.649 cạnh có hướng.
+- 5 weight presets;
+- 24 goals;
+- 3,649 directed edges.
 
-Tổng cộng 5 × 24 × 3.649 phép kiểm tra cạnh–đích, không phát hiện vi phạm nhất quán; độ vượt lớn nhất bằng 0 trong sai số tính toán của lần chạy. Đồng thời UCS, A* và Dijkstra có **0 sai khác tối ưu** trên 552 cặp địa danh, sai lệch chi phí lớn nhất bằng 0.
+Across all $5 \times 24 \times 3{,}649$ edge–goal checks, no consistency violation was found; the largest excess was zero within the numerical tolerance of that run. UCS, A*, and Dijkstra also showed **0 optimality mismatches** across the 552 landmark pairs, with a maximum cost difference of zero.
 
-Kết quả thực nghiệm hỗ trợ hiện thực, còn chứng minh ở trên mới là cơ sở tổng quát trong các giả định của mô hình.
+The empirical results support the implementation; the proof above is the general basis under the model's assumptions.
 
 ---
 
-## 8. Bài toán đi qua nhiều địa điểm
+## 8. Multi-Location Routing Problem
 
-### 8.1. Phát biểu
+### 8.1. Problem Statement
 
-Input gồm điểm xuất phát $s$ và tập $K=\{k_1,\ldots,k_m\}$ cần ghé. Hệ thống cần tìm một hoán vị $\pi$ để giảm:
+The input consists of a start $s$ and a set $K=\{k_1,\ldots,k_m\}$ of required stops. The system must find a permutation $\pi$ that reduces:
 
 $$
 C(s,k_{\pi_1})+\sum_{i=1}^{m-1}C(k_{\pi_i},k_{\pi_{i+1}}).
 $$
 
-Đây là đường đi mở: không bắt buộc quay về điểm xuất phát. $C(a,b)$ là chi phí đường đi tối ưu trên đồ thị đường, tính bằng Dijkstra theo profile và tiêu chí đã chọn.
+This is an open route: returning to the start is not mandatory. $C(a,b)$ is the optimal road-graph path cost calculated by Dijkstra under the selected profile and criterion.
 
-### 8.2. Tiền tính chi phí cặp
+### 8.2. Pairwise Cost Precomputation
 
-Hệ thống chạy Dijkstra single-source từ mỗi địa danh quan trọng, lưu chi phí và parent để dựng lại từng đoạn. Nhờ đó, tầng tối ưu thứ tự làm việc trên ma trận chi phí nhỏ thay vì gọi lại tìm kiếm cho mọi hoán vị. Tuyến cuối là phép nối hình học của các đoạn, loại node trùng ở ranh giới.
+The system runs single-source Dijkstra from every important landmark and stores costs and parents for reconstructing each segment. The order-optimization layer can therefore work on a small cost matrix instead of repeating path search for every permutation. The final route joins the segment geometries while removing duplicate nodes at segment boundaries.
 
-### 8.3. Exact brute force
+### 8.3. Exact Brute Force
 
-Phương pháp chính xác duyệt mọi $m!$ hoán vị, tính tổng chi phí và chọn nhỏ nhất. Đây là exhaustive search theo nghĩa thử toàn bộ ứng viên [6]. Bảo đảm của dự án là:
+The exact method enumerates all $m!$ permutations, calculates each total cost, and selects the smallest. This is exhaustive search in the sense of testing every candidate [6]. The project's guarantee is:
 
-> tối ưu đối với bài toán thứ tự rút gọn trên ma trận chi phí cặp hiện tại.
+> optimality for the reduced ordering problem on the current pairwise cost matrix.
 
-Nó không phải lời giải hiệu quả cho số waypoint lớn vì tăng trưởng giai thừa. GUI giới hạn quy mô phù hợp cho demo/lab.
+It is not efficient for many waypoints because its growth is factorial. The GUI limits the input size to a range suitable for the demonstration/lab.
 
 ### 8.4. Nearest Neighbor
 
-Từ vị trí hiện tại, thuật toán chọn waypoint chưa thăm có chi phí cặp nhỏ nhất, lặp đến hết. Sau khi đã có ma trận, phần chọn thứ tự tốn $O(m^2)$. Nearest Neighbor nhanh và dễ giải thích nhưng **không bảo đảm tối ưu**; các phân tích kinh điển về heuristic này cho TSP được trình bày bởi Rosenkrantz, Stearns và Lewis [11].
+From the current location, the algorithm repeatedly selects the unvisited waypoint with the smallest pairwise cost. Once the matrix is available, order selection takes $O(m^2)$. Nearest Neighbor is fast and easy to explain, but it **does not guarantee global optimality**; classical analyses of this heuristic for TSP are presented by Rosenkrantz, Stearns, and Lewis [11].
 
-Hệ thống luôn gắn nhãn `approximate_not_guaranteed` và khi có thể sẽ so với exact để hiển thị gap. Việc một test case cho gap 0% chỉ có nghĩa heuristic tình cờ đạt cùng nghiệm trong case đó.
+The system always applies the label `approximate_not_guaranteed` and, when possible, compares the result with exact search to display a gap. A 0% gap in one test case only means that the heuristic happened to find the same solution in that case.
 
 ---
 
-## 9. Thiết kế và hiện thực chương trình
+## 9. Program Design and Implementation
 
-### 9.1. Kiến trúc
+### 9.1. Architecture
 
-![Kiến trúc và luồng dữ liệu tổng thể](docs/images/report-architecture.png)
+![Overall architecture and data flow](docs/images/report-architecture.png)
 
-**Hình 1. Kiến trúc và luồng dữ liệu tổng thể.**
+**Figure 1. Overall architecture and data flow.**
 
-Backend dùng FastAPI; tài liệu chính thức mô tả đây là framework API Python và hỗ trợ WebSocket [12], [13]. Frontend dùng React [14] và Leaflet 1.9.4 [15]. Các tài liệu chính thức này chỉ xác nhận API/công nghệ; mọi tuyên bố về hành vi dự án được kiểm chứng từ mã và test nội bộ.
+The backend uses FastAPI; its official documentation describes it as a Python API framework with WebSocket support [12], [13]. The frontend uses React [14] and Leaflet 1.9.4 [15]. These official sources only establish the APIs and technologies; every claim about project behavior is verified through the code and internal tests.
 
-### 9.2. Cấu trúc module
+### 9.2. Module Structure
 
-- `lab-1-backend/app/main.py`: khai báo API và WebSocket.
-- `lab-1-backend/app/application.py`: orchestration, nạp graph và thực thi use case.
-- `lab-1-backend/core/graph.py`: mô hình node/cạnh và thao tác graph.
-- `lab-1-backend/core/costs.py`: hàm chi phí, preset và profile giao thông.
-- `lab-1-backend/core/algorithms/`: sáu thuật toán tìm kiếm.
-- `lab-1-backend/core/multi_location.py`: ma trận cặp, exact brute force và nearest neighbor.
-- `lab-1-backend/core/explanation.py`: diễn giải tuyến và tuyến thay thế.
-- `lab-1-frontend/src/App.tsx`: state và luồng tương tác chính.
-- `lab-1-frontend/src/api.ts`: REST/WebSocket, timeout và hủy request cũ.
-- `lab-1-frontend/src/components/MapView.tsx`: bản đồ, marker, polyline và animation.
-- `lab-1-frontend/src/components/ResultsPanel.tsx`: metrics, giải thích, so sánh.
+- `lab-1-backend/app/main.py`: declares the API and WebSocket.
+- `lab-1-backend/app/application.py`: orchestration, graph loading, and use-case execution.
+- `lab-1-backend/core/graph.py`: node/edge models and graph operations.
+- `lab-1-backend/core/costs.py`: cost function, presets, and traffic profiles.
+- `lab-1-backend/core/algorithms/`: the six search algorithms.
+- `lab-1-backend/core/multi_location.py`: pairwise matrix, exact brute force, and nearest neighbor.
+- `lab-1-backend/core/explanation.py`: route and alternative-route explanations.
+- `lab-1-frontend/src/App.tsx`: state and primary interaction flow.
+- `lab-1-frontend/src/api.ts`: REST/WebSocket, timeout, and cancellation of stale requests.
+- `lab-1-frontend/src/components/MapView.tsx`: map, markers, polylines, and animation.
+- `lab-1-frontend/src/components/ResultsPanel.tsx`: metrics, explanations, and comparisons.
 
-### 9.3. Luồng một yêu cầu
+### 9.3. Request Flow
 
-![Luồng xử lý một yêu cầu tìm đường](docs/images/report-search-flow.png)
+![Processing flow for a route-search request](docs/images/report-search-flow.png)
 
-**Hình 2. Luồng xử lý một yêu cầu tìm đường.**
+**Figure 2. Processing flow for a route-search request.**
 
-Để tránh nút “Running” quay vô hạn, frontend quản lý vòng đời request bằng `AbortController`, timeout 30 giây, hủy yêu cầu cũ khi có yêu cầu mới và xử lý đầy đủ nhánh `final`, `error`, đóng socket. Đây là cơ chế kỹ thuật; người dùng vẫn cần xem log nếu backend bị tắt hoặc mạng bị chặn.
+To prevent the “Running” button from spinning indefinitely, the frontend manages the request lifecycle with an `AbortController`, a 30-second timeout, cancellation of stale requests when a new one begins, and complete handling of the `final`, `error`, and socket-close branches. This is a technical safeguard; users should still inspect logs if the backend is stopped or the network is blocked.
 
 ### 9.4. API
 
-| Endpoint | Vai trò |
+| Endpoint | Role |
 |---|---|
-| `GET /api/health` | kiểm tra backend |
-| `GET /api/bootstrap` | landmark, preset, metadata ban đầu |
-| `GET /api/network` | hình học mạng để hiển thị |
-| `POST /api/search` | tìm đường hai điểm |
-| `POST /api/compare` | chạy sáu thuật toán cùng input |
-| `POST /api/multi-route` | tối ưu nhiều điểm |
-| `WS /ws/search` | phát bước tìm kiếm và kết quả cuối |
+| `GET /api/health` | check backend health |
+| `GET /api/bootstrap` | initial landmarks, presets, and metadata |
+| `GET /api/network` | network geometry for display |
+| `POST /api/search` | two-location route search |
+| `POST /api/compare` | run all six algorithms on the same input |
+| `POST /api/multi-route` | optimize a multi-location route |
+| `WS /ws/search` | stream search steps and the final result |
 
-Mỗi WebSocket step hiện tương ứng đúng **một lần mở rộng node**, nên nút **Next** tiến đúng một bước thuật toán. Thay vì gửi lặp lại toàn bộ visited, backend chỉ gửi `visited_delta` chứa node vừa mở rộng; frontend tích lũy các delta để replay nên node cũ không biến mất khi tiến hoặc lùi. Frontier vẫn được gửi dưới dạng snapshot tối đa 80 phần tử vì tập này có thể thêm, xóa và đổi priority giữa hai bước. Sau khi nhận `complete`, các lần bấm Next chỉ thay đổi chỉ số local và không gọi backend.
-
----
-
-## 10. Giao diện và khả năng giải thích
-
-### 10.1. Điều khiển
-
-Người dùng có thể chọn:
-
-- điểm đầu, điểm cuối hoặc danh sách waypoint;
-- BFS, DFS, UCS, A*, Dijkstra, Greedy;
-- tiêu chí cân bằng/nhanh/ngắn/ít ùn tắc/ít rủi ro;
-- profile bình thường/giờ cao điểm/trời mưa;
-- chế độ chạy đơn, so sánh hoặc nhiều địa điểm;
-- tốc độ/tiến trình trực quan theo khả năng giao diện.
-
-### 10.2. Bản đồ và trạng thái
-
-Leaflet hiển thị mạng đường, địa danh, điểm truy cập, toàn bộ visited đã tích lũy đến bước đang chọn, cửa sổ frontier và polyline của tuyến cuối. Việc tách marker địa danh với điểm truy cập giúp giải thích vì sao tuyến kết thúc cạnh cổng thay vì giữa công trình. Người dùng có thể bật thang màu xanh–vàng–đỏ để xem mức congestion/risk mô phỏng của từng cạnh theo traffic profile; chú thích giao diện nêu rõ đây không phải dữ liệu giao thông thời gian thực.
-
-![Chế độ tìm đường đơn](docs/images/report-single-current.png)
-
-**Hình 3. Chế độ tìm đường đơn hiện tại: Dijkstra từ Nhà thờ Đức Bà đến Thảo Cầm Viên, kèm chi phí, quãng đường, thời gian và số node.**
-
-![Chế độ so sánh](docs/images/report-compare-current.png)
-
-**Hình 4. Chế độ so sánh sáu thuật toán trên cùng input.**
-
-![Chế độ nhiều địa điểm](docs/images/report-multi-current.png)
-
-**Hình 5. Chế độ nhiều địa điểm, hiển thị thứ tự ghé và tuyến ghép.**
-
-Ba ảnh được chụp lại từ phiên bản hiện tại sau khi backend/frontend chạy thành công; không dùng ảnh cũ có thống kê graph lỗi thời.
-
-### 10.3. Giải thích tuyến
-
-Kết quả không chỉ trả mảng node. Phần giải thích gồm:
-
-- tiêu chí và profile đã chọn;
-- tổng chi phí, khoảng cách, thời gian;
-- các đoạn/tên đường chính;
-- đoạn có tác động congestion/risk đáng chú ý;
-- tuyến thay thế khi tìm được;
-- nhãn bảo đảm tối ưu phù hợp với thuật toán;
-- số node mở rộng, số node sinh và thời gian chạy.
-
-Ngôn ngữ giải thích phải phân biệt “tối ưu theo hàm chi phí mô hình” với “tốt nhất trong giao thông thật”. BFS được ghi tối ưu theo số cạnh; Greedy/DFS không bảo đảm; exact chỉ tối ưu trên bài toán thứ tự rút gọn.
+Each WebSocket step now corresponds to exactly **one node expansion**, so the **Next** button advances by one algorithmic step. Instead of repeatedly sending the complete visited set, the backend sends only a `visited_delta` containing the newly expanded node. The frontend accumulates these deltas for replay, so earlier nodes do not disappear while moving forward or backward. The frontier remains a snapshot of at most 80 entries because entries can be added, removed, or reprioritized between steps. After `complete` is received, subsequent Next actions only change a local index and do not call the backend.
 
 ---
 
-## 11. Thực nghiệm và đánh giá
+## 10. User Interface and Explainability
 
-### 11.1. Phương pháp
+### 10.1. Controls
 
-Benchmark được chạy trên trạng thái repository dùng cho báo cáo, không lấy số liệu chép từ báo cáo cũ. Mỗi thuật toán ở case chính chạy 10 lần; bảng ghi median thời gian. Thời gian rất nhỏ dễ bị ảnh hưởng bởi máy, cache và tiến trình nền, nên chỉ dùng để mô tả lần chạy này; số node mở rộng và chi phí đáng tin cậy hơn để so sánh hành vi.
+Users can select:
 
-Case chính:
+- a start, destination, or waypoint list;
+- BFS, DFS, UCS, A*, Dijkstra, or Greedy;
+- balanced, fastest, shortest, low-congestion, or low-risk criteria;
+- normal, rush-hour, or rainy profiles;
+- single-route, comparison, or multi-location mode;
+- visualization speed/progress within the interface's capabilities.
 
-- nguồn: Nhà thờ Đức Bà;
-- đích: Thảo Cầm Viên Sài Gòn;
-- tiêu chí: cân bằng;
-- giao thông: bình thường.
+### 10.2. Map and State
 
-### 11.2. So sánh sáu thuật toán
+Leaflet displays the road network, landmarks, access points, all visited nodes accumulated up to the selected step, the frontier window, and the final-route polyline. Separating landmark markers from access points explains why a route ends near an entrance rather than in the middle of a site. Users can enable a green–yellow–red scale to inspect the simulated congestion/risk of each edge under the selected traffic profile; the interface explicitly states that this is not real-time traffic data.
 
-**Bảng 7. Kết quả benchmark case chính**
+![Single-route mode](docs/images/report-single-current.png)
 
-| Thuật toán | Chi phí | Km | Phút | Node mở rộng | Node sinh | Node tuyến | Median ms | Bảo đảm |
+**Figure 3. Current single-route mode: Dijkstra from Nhà thờ Đức Bà to Thảo Cầm Viên, including cost, distance, time, and node counts.**
+
+![Comparison mode](docs/images/report-compare-current.png)
+
+**Figure 4. Comparison mode for all six algorithms on the same input.**
+
+![Multi-location mode](docs/images/report-multi-current.png)
+
+**Figure 5. Multi-location mode showing the visiting order and joined route.**
+
+All three screenshots were captured again from the current version after the backend and frontend ran successfully; no outdated screenshots with obsolete graph statistics were used.
+
+### 10.3. Route Explanation
+
+The result returns more than a node array. Its explanation includes:
+
+- the selected criterion and profile;
+- total cost, distance, and time;
+- major segments/road names;
+- segments with notable congestion/risk effects;
+- an alternative route when one is found;
+- an optimality-guarantee label appropriate to the algorithm;
+- expanded-node count, generated-node count, and runtime.
+
+The explanation language must distinguish “optimal under the model cost function” from “best in real-world traffic.” BFS is described as optimal by edge count; Greedy/DFS carry no guarantee; exact search is only optimal for the reduced ordering problem.
+
+---
+
+## 11. Experiments and Evaluation
+
+### 11.1. Method
+
+Benchmarks were run on the repository state used for this report rather than copied from an older report. Each algorithm in the primary case was run 10 times, and the table reports median time. Very small timings are easily affected by the machine, cache, and background processes, so they only describe this run; expanded-node counts and costs are more reliable for behavioral comparisons.
+
+Primary case:
+
+- source: Nhà thờ Đức Bà;
+- destination: Thảo Cầm Viên Sài Gòn;
+- criterion: balanced;
+- traffic: normal.
+
+### 11.2. Comparison of the Six Algorithms
+
+**Table 7. Benchmark results for the primary case**
+
+| Algorithm | Cost | Km | Minutes | Expanded nodes | Generated nodes | Route nodes | Median ms | Guarantee |
 |---|---:|---:|---:|---:|---:|---:|---:|---|
-| BFS | 8,2935 | 2,0816 | 3,0196 | 497 | 558 | 18 | 5,7803 | tối ưu số cạnh |
-| DFS | 64,0417 | 13,1433 | 23,6858 | 1.447 | 1.531 | 141 | 44,9802 | không bảo đảm |
-| UCS | 8,2935 | 2,0816 | 3,0196 | 528 | 606 | 18 | 0,8386 | tối ưu |
-| A* | 8,2935 | 2,0816 | 3,0196 | 338 | 396 | 18 | 1,3972 | tối ưu với heuristic nhất quán |
-| Dijkstra | 8,2935 | 2,0816 | 3,0196 | 528 | 606 | 18 | 0,8870 | tối ưu |
-| Greedy | 8,6470 | 1,4572 | 1,9845 | 22 | 39 | 22 | 0,1184 | không bảo đảm |
+| BFS | 8.2935 | 2.0816 | 3.0196 | 497 | 558 | 18 | 5.7803 | optimal by edge count |
+| DFS | 64.0417 | 13.1433 | 23.6858 | 1,447 | 1,531 | 141 | 44.9802 | no guarantee |
+| UCS | 8.2935 | 2.0816 | 3.0196 | 528 | 606 | 18 | 0.8386 | optimal |
+| A* | 8.2935 | 2.0816 | 3.0196 | 338 | 396 | 18 | 1.3972 | optimal with a consistent heuristic |
+| Dijkstra | 8.2935 | 2.0816 | 3.0196 | 528 | 606 | 18 | 0.8870 | optimal |
+| Greedy | 8.6470 | 1.4572 | 1.9845 | 22 | 39 | 22 | 0.1184 | no guarantee |
 
-Nhận xét:
+Observations:
 
-- UCS, A* và Dijkstra trả cùng chi phí 8,2935.
-- A* giảm số node mở rộng khoảng **35,98%** so với Dijkstra (338 so với 528) trong case này, cho thấy heuristic có ích.
-- Greedy mở rộng rất ít node nhưng chi phí cao hơn tối ưu khoảng **4,26%**. Tuyến của Greedy ngắn hơn về km/phút nhưng bị đánh giá cao hơn bởi tổng hàm cân bằng do cấu trúc cạnh và các thành phần phạt; đây là ví dụ tại sao không được đồng nhất một cột metric với tổng chi phí.
-- DFS tạo tuyến rất dài và mở rộng nhiều node, phù hợp với nhận định không có bảo đảm chất lượng.
-- Không nên kết luận A* luôn nhanh hơn theo millisecond: ở case này A* mở rộng ít hơn nhưng phép tính heuristic làm median runtime cao hơn UCS/Dijkstra. Kết luận đúng là hiệu quả phụ thuộc graph, heuristic và hiện thực.
+- UCS, A*, and Dijkstra return the same cost of 8.2935.
+- A* reduces the number of expanded nodes by approximately **35.98%** compared with Dijkstra (338 versus 528) in this case, demonstrating a useful heuristic.
+- Greedy expands very few nodes, but its cost is approximately **4.26%** above optimal. Its route is shorter in kilometers/minutes but receives a higher balanced total because of the edge structure and penalty components; this illustrates why a single metric column must not be equated with total cost.
+- DFS produces a very long route and expands many nodes, consistent with its lack of a quality guarantee.
+- One must not conclude that A* is always faster in milliseconds: in this case, it expands fewer nodes, but heuristic calculations make its median runtime higher than UCS/Dijkstra. The correct conclusion is that efficiency depends on the graph, heuristic, and implementation.
 
-### 11.3. Ảnh hưởng giao thông
+### 11.3. Traffic Effects
 
-Case: Chợ Bến Thành → Dinh Độc Lập, Dijkstra, tiêu chí cân bằng.
+Case: Chợ Bến Thành → Dinh Độc Lập, Dijkstra, balanced criterion.
 
-**Bảng 8. So sánh profile giao thông**
+**Table 8. Traffic-profile comparison**
 
-| Profile | Chi phí | Km | Phút | Đường chính | Tuyến đổi? |
+| Profile | Cost | Km | Minutes | Main roads | Route changed? |
 |---|---:|---:|---:|---|---|
-| Bình thường | 6,7374 | 1,8130 | 2,7711 | Quách Thị Trang → Phan Chu Trinh → Nguyễn An Ninh → Trương Định → Nguyễn Thị Minh Khai → Nam Kỳ Khởi Nghĩa | mốc |
-| Giờ cao điểm | 8,4386 | 1,8130 | 4,4239 | cùng chuỗi đường | Không trong case này |
-| Trời mưa | 9,3149 | 1,7932 | 3,1841 | Quách Thị Trang → Lê Lai → Trương Định → Nguyễn Thị Minh Khai → Nam Kỳ Khởi Nghĩa | Có |
+| Normal | 6.7374 | 1.8130 | 2.7711 | Quách Thị Trang → Phan Chu Trinh → Nguyễn An Ninh → Trương Định → Nguyễn Thị Minh Khai → Nam Kỳ Khởi Nghĩa | baseline |
+| Rush hour | 8.4386 | 1.8130 | 4.4239 | same road sequence | No in this case |
+| Rainy | 9.3149 | 1.7932 | 3.1841 | Quách Thị Trang → Lê Lai → Trương Định → Nguyễn Thị Minh Khai → Nam Kỳ Khởi Nghĩa | Yes |
 
-Giờ cao điểm làm thời gian mô phỏng tăng khoảng **59,65%** so với bình thường nhưng chưa đủ để đổi tuyến trong case này. Profile mưa đổi đoạn đầu sang Lê Lai. Trên toàn bộ 552 cặp, 82 cặp đổi tuyến theo profile; do đó kết luận không dựa vào một ví dụ duy nhất.
+Rush hour increases simulated travel time by approximately **59.65%** relative to normal but does not change the route in this case. The rainy profile changes the initial segment to Lê Lai. Across all 552 pairs, 82 change route by profile, so the conclusion is not based on a single example.
 
-### 11.4. Bài toán nhiều địa điểm
+### 11.4. Multi-Location Routing
 
-Nguồn: Nhà thờ Đức Bà. Các waypoint nhập ban đầu: Chợ Bến Thành → Phố đi bộ Nguyễn Huệ → Bến Bạch Đằng → Bảo tàng Mỹ thuật.
+Source: Nhà thờ Đức Bà. Initially entered waypoints: Chợ Bến Thành → Phố đi bộ Nguyễn Huệ → Bến Bạch Đằng → Bảo tàng Mỹ thuật.
 
-**Bảng 9. Kết quả tối ưu thứ tự**
+**Table 9. Visiting-order optimization results**
 
-| Phương án | Thứ tự | Chi phí | Km | Phút | Runtime ms | Bảo đảm |
+| Option | Order | Cost | Km | Minutes | Runtime ms | Guarantee |
 |---|---|---:|---:|---:|---:|---|
-| Thứ tự nhập | Chợ → Nguyễn Huệ → Bạch Đằng → Mỹ thuật | 21,0378 | 4,2757 | 7,7651 | — | baseline |
-| Nearest Neighbor | Chợ → Mỹ thuật → Nguyễn Huệ → Bạch Đằng | 17,6405 | 3,3850 | 5,9987 | 198,5024 | gần đúng, không bảo đảm |
-| Exact brute force | Chợ → Mỹ thuật → Nguyễn Huệ → Bạch Đằng | 17,6405 | 3,3850 | 5,9987 | 64,0508 | tối ưu bài toán rút gọn |
+| Input order | Chợ → Nguyễn Huệ → Bạch Đằng → Mỹ thuật | 21.0378 | 4.2757 | 7.7651 | — | baseline |
+| Nearest Neighbor | Chợ → Mỹ thuật → Nguyễn Huệ → Bạch Đằng | 17.6405 | 3.3850 | 5.9987 | 198.5024 | approximate, no guarantee |
+| Exact brute force | Chợ → Mỹ thuật → Nguyễn Huệ → Bạch Đằng | 17.6405 | 3.3850 | 5.9987 | 64.0508 | optimal for the reduced problem |
 
-Trong case này, thứ tự tối ưu giảm **16,15%** chi phí so với thứ tự nhập. Nearest Neighbor tình cờ trùng exact, gap 0%; điều này không làm heuristic trở thành thuật toán tối ưu nói chung. Runtime exact thấp hơn nearest trong lần đo riêng này không phải quy luật độ phức tạp; tiền xử lý/cache và quy mô chỉ bốn waypoint chi phối con số.
+In this case, the optimal order reduces cost by **16.15%** compared with the input order. Nearest Neighbor happens to match exact search with a 0% gap; this does not make the heuristic generally optimal. The lower exact runtime in this particular run is not a complexity rule; preprocessing/cache effects and the small size of four waypoints dominate the measurement.
 
-### 11.5. Kiểm toán toàn bộ dữ liệu
+### 11.5. Full-Dataset Audit
 
-Audit cuối chạy trong 32,29 giây và cho kết quả:
+The final audit ran in 32.29 seconds and produced:
 
-- 552/552 cặp địa danh đi được;
-- 0 mismatch giữa UCS, A* và Dijkstra;
-- sai lệch chi phí tối ưu lớn nhất: 0;
-- 0 vi phạm nhất quán heuristic trong toàn bộ kiểm tra;
-- 82 cặp đổi tuyến bởi profile giao thông;
-- 351 cặp đổi tuyến bởi tiêu chí chi phí;
-- khoảng snap điểm truy cập: trung bình 8,02 m, lớn nhất 29,9 m.
+- 552/552 reachable landmark pairs;
+- 0 mismatches among UCS, A*, and Dijkstra;
+- maximum optimal-cost difference: 0;
+- 0 heuristic-consistency violations across all checks;
+- 82 pairs whose route changes with the traffic profile;
+- 351 pairs whose route changes with the cost criterion;
+- access-point snap distance: 8.02 m average and 29.9 m maximum.
 
-Kết hợp unit/integration test, build frontend, benchmark cố định và audit toàn tập giúp giảm nguy cơ một demo đẹp che giấu lỗi ở trường hợp khác.
+Combining unit/integration tests, a frontend build, a fixed benchmark, and a full-set audit reduces the risk that an attractive demo conceals errors in other cases.
 
 ---
 
-## 12. Hướng dẫn cài đặt và sử dụng
+## 12. Installation and Usage Guide
 
-### 12.1. Yêu cầu
+### 12.1. Requirements
 
-- Python tương thích cấu hình `lab-1-backend/pyproject.toml`;
-- Node.js/npm tương thích `lab-1-frontend/package.json`;
-- Git nếu clone repository/submodule;
-- hai cổng local mặc định 8000 và 5173 còn trống.
+- a Python version compatible with `lab-1-backend/pyproject.toml`;
+- Node.js/npm versions compatible with `lab-1-frontend/package.json`;
+- Git when cloning the repository/submodules;
+- the default local ports 8000 and 5173 must be available.
 
-Sau khi clone repository cha:
+After cloning the parent repository:
 
 ```powershell
 git submodule update --init --recursive
 ```
 
-### 12.2. Chạy backend trên Windows PowerShell
+### 12.2. Running the Backend in Windows PowerShell
 
 ```powershell
 cd lab-1-backend
@@ -656,11 +704,11 @@ python -m pip install -e .
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Kiểm tra `http://127.0.0.1:8000/docs` hoặc `/api/health` trước khi mở frontend.
+Check `http://127.0.0.1:8000/docs` or `/api/health` before opening the frontend.
 
-### 12.3. Chạy frontend
+### 12.3. Running the Frontend
 
-Ở terminal thứ hai:
+In a second terminal:
 
 ```powershell
 cd lab-1-frontend
@@ -668,28 +716,28 @@ npm install
 npm run dev
 ```
 
-Mở `http://127.0.0.1:5173`.
+Open `http://127.0.0.1:5173`.
 
-### 12.4. Quy trình thao tác đề xuất
+### 12.4. Suggested Interaction Flow
 
-1. Chọn chế độ **Single route**.
-2. Chọn Nhà thờ Đức Bà → Thảo Cầm Viên, A*, cân bằng, bình thường.
-3. Nhấn chạy; quan sát visited/frontier và tuyến cuối.
-4. Chuyển sang **Compare** để so sáu thuật toán cùng input.
-5. Đổi profile sang giờ cao điểm hoặc trời mưa và xem chi phí/tuyến.
-6. Chuyển sang **Multi-location**, chọn bốn waypoint, so nearest với exact.
-7. Bấm marker địa danh để phân biệt vị trí hiển thị và điểm truy cập.
+1. Select **Single route** mode.
+2. Select Nhà thờ Đức Bà → Thảo Cầm Viên, A*, balanced, normal.
+3. Run the search and observe the visited set, frontier, and final route.
+4. Switch to **Compare** to compare all six algorithms on the same input.
+5. Change the profile to rush hour or rainy and inspect cost/route changes.
+6. Switch to **Multi-location**, select four waypoints, and compare nearest with exact.
+7. Click landmark markers to distinguish display positions from access points.
 
-Nếu nút Running không kết thúc:
+If the Running button does not finish:
 
-1. mở `http://127.0.0.1:8000/api/health`;
-2. xem terminal backend có exception không;
-3. xem DevTools → Network/Console, đặc biệt WebSocket `/ws/search`;
-4. xác nhận frontend gọi đúng host/port;
-5. chờ timeout 30 giây hoặc chạy lại sau khi backend khỏe;
-6. không nhấn liên tục — yêu cầu mới sẽ hủy yêu cầu cũ.
+1. open `http://127.0.0.1:8000/api/health`;
+2. check the backend terminal for exceptions;
+3. inspect DevTools → Network/Console, especially the `/ws/search` WebSocket;
+4. confirm that the frontend calls the correct host/port;
+5. wait for the 30-second timeout or retry after the backend is healthy;
+6. do not click repeatedly—a new request cancels the old request.
 
-### 12.5. Chạy kiểm thử
+### 12.5. Running Tests
 
 Backend:
 
@@ -706,52 +754,52 @@ npm test
 npm run build
 ```
 
-Kết quả nêu trong báo cáo phải được cập nhật nếu dữ liệu hoặc thuật toán thay đổi.
+Results stated in this report must be updated whenever the data or algorithms change.
 
 ---
 
-## 13. Hạn chế và hướng phát triển
+## 13. Limitations and Future Work
 
-### 13.1. Hạn chế
+### 13.1. Limitations
 
-1. **Không có traffic trực tiếp.** Ba profile là mô phỏng xác định; thời gian không phản ánh tình trạng đường tại thời điểm sử dụng.
-2. **Thang congestion/risk là giả định.** Chưa được hiệu chuẩn bằng dữ liệu quan trắc hoặc thống kê tai nạn có thẩm quyền.
-3. **Chất lượng điểm vào phụ thuộc OSM/tuyển chọn.** Điểm snap gần đường nhưng một số điểm chưa được xác nhận là cổng chính thức.
-4. **Một loại phương tiện.** Mạng `drive` chưa xử lý đi bộ, xe buýt, cấm xe theo giờ hoặc quay đầu phức tạp.
-5. **Không mô hình hóa thời gian theo cạnh một cách động.** Chi phí được chốt theo profile trước khi chạy; chưa có time-dependent shortest path.
-6. **Exact không mở rộng tốt.** Duyệt $m!$ chỉ phù hợp số waypoint nhỏ.
-7. **So sánh runtime còn phụ thuộc môi trường.** Chưa có benchmark nhiều máy, warm-up và khoảng tin cậy.
-8. **Frontier trực quan có giới hạn.** Mọi bước mở rộng đều được gửi, nhưng mỗi message chỉ mang tối đa 80 phần tử frontier; phần còn lại vẫn tồn tại trong thuật toán nhưng không được vẽ để tránh quá tải bản đồ.
-9. **Dữ liệu OSM thay đổi theo thời gian.** Nếu tái tải, node ID, hình học hoặc thuộc tính có thể khác.
-10. **Giải thích là dựa trên mô hình.** Chưa có đánh giá người dùng về mức dễ hiểu và chưa có kiểm định ngoài thực địa.
+1. **No live traffic.** The three profiles are deterministic simulations; travel time does not reflect road conditions at the moment of use.
+2. **Congestion/risk scales are assumptions.** They have not been calibrated with authoritative observation or accident-statistics data.
+3. **Access-point quality depends on OSM/curation.** Points are snapped near roads, but some have not been verified as official entrances.
+4. **One vehicle mode.** The `drive` network does not yet handle walking, buses, time-dependent vehicle restrictions, or complex U-turns.
+5. **No dynamic edge-time model.** Costs are fixed according to the profile before search; time-dependent shortest paths are not implemented.
+6. **Exact search does not scale well.** Enumerating $m!$ orders is only suitable for a small number of waypoints.
+7. **Runtime comparisons depend on the environment.** There are not yet benchmarks across multiple machines, warm-up runs, and confidence intervals.
+8. **The visual frontier is bounded.** Every expansion step is sent, but each message contains at most 80 frontier entries; the remainder still exists in the algorithm but is not drawn to avoid overloading the map.
+9. **OSM data changes over time.** A new download may produce different node IDs, geometry, or attributes.
+10. **Explanations are model-based.** No user study has evaluated comprehensibility, and no field validation has been performed.
 
-### 13.2. Hướng phát triển
+### 13.2. Future Work
 
-- tích hợp nguồn giao thông thời gian thực có giấy phép và provenance rõ ràng;
-- hiệu chuẩn tốc độ/ùn tắc/rủi ro từ dữ liệu chính thống, có ngày và vùng phủ;
-- thêm turn restriction, hình phạt giao lộ và định tuyến đa phương thức;
-- xây quy trình xác minh cổng địa danh với nguồn chính thức, lưu lịch sử chỉnh sửa;
-- nghiên cứu 2-opt/3-opt hoặc metaheuristic cho quy mô waypoint lớn;
-- đánh giá heuristic mạnh hơn nhưng vẫn chứng minh admissible;
-- benchmark có warm-up, nhiều seed/case, phân vị và môi trường được ghi lại;
-- thêm accessibility, quốc tế hóa và kiểm thử end-to-end trình duyệt;
-- cảnh báo dữ liệu cũ và tự động chạy audit sau mỗi lần cập nhật OSM.
-
----
-
-## 14. Kết luận
-
-Saigon Route Lab đã chuyển yêu cầu tìm kiếm đường đi thành một bài toán giao thông Việt Nam cụ thể trên đồ thị OSM có hướng. Hệ thống hiện thực đầy đủ BFS, DFS, UCS, A*, Dijkstra và Greedy; dùng hàm chi phí gồm khoảng cách, thời gian, ùn tắc và rủi ro; hỗ trợ kịch bản giao thông, bài toán hai điểm và nhiều điểm; đồng thời trực quan hóa tiến trình và giải thích kết quả.
-
-Điểm quan trọng nhất không phải một thuật toán thắng mọi tiêu chí. BFS/DFS làm rõ chiến lược không theo chi phí; UCS/Dijkstra cung cấp chuẩn tối ưu với cạnh không âm; A* giữ tối ưu nhưng dùng heuristic để giảm mở rộng trong case tiêu biểu; Greedy cho thấy đánh đổi tốc độ–chất lượng; exact và nearest neighbor thể hiện đánh đổi tương tự ở tầng thứ tự waypoint.
-
-Các kiểm chứng cuối — 77 test backend, 25 test frontend, build production, 552 cặp địa danh, kiểm toán heuristic và ba luồng GUI — cho thấy phiên bản hiện tại hoạt động nhất quán trong phạm vi mô hình. Báo cáo đồng thời giới hạn rõ tuyên bố: dữ liệu đường đến từ OSM, còn traffic/risk là mô phỏng; điểm truy cập gần đường không mặc nhiên là cổng được xác nhận chính thức. Đây là nền tảng đủ tốt cho mục tiêu học thuật của Lab 1 và có lộ trình rõ để tiến tới hệ thống định tuyến thực tế hơn.
+- integrate a licensed real-time traffic source with clear provenance;
+- calibrate speed, congestion, and risk using authoritative data with dates and coverage areas;
+- add turn restrictions, intersection penalties, and multimodal routing;
+- establish an official-source process for verifying landmark entrances and retaining edit history;
+- investigate 2-opt/3-opt or metaheuristics for larger waypoint sets;
+- evaluate stronger heuristics while retaining a proof of admissibility;
+- run benchmarks with warm-up, multiple seeds/cases, percentiles, and a recorded environment;
+- add accessibility, internationalization, and browser end-to-end tests;
+- warn about stale data and automatically rerun the audit after each OSM update.
 
 ---
 
-## Tài liệu tham khảo
+## 14. Conclusion
 
-[1] Bộ môn/giảng viên, **`Problem_description.pdf`**, tài liệu mô tả Lab 1 nội bộ, 10 trang, tệp trong repository. Truy cập nội bộ ngày 11/08/2026.
+Saigon Route Lab translates the route-search requirement into a concrete Vietnamese traffic problem on a directed OSM graph. The system fully implements BFS, DFS, UCS, A*, Dijkstra, and Greedy; uses a cost function containing distance, time, congestion, and risk; supports traffic scenarios and both two-location and multi-location problems; and visualizes the search process while explaining results.
+
+The central lesson is not that one algorithm wins under every criterion. BFS/DFS clarify non-cost-based strategies; UCS/Dijkstra provide an optimal baseline with non-negative edges; A* retains optimality while using a heuristic to reduce expansions in the representative case; Greedy demonstrates the speed–quality trade-off; and exact search versus nearest neighbor reveals a similar trade-off at the waypoint-ordering layer.
+
+The final verification—77 backend tests, 25 frontend tests, a production build, 552 landmark pairs, a heuristic audit, and three GUI flows—shows that the current version behaves consistently within the model's scope. The report also limits its claims explicitly: road data comes from OSM, while traffic/risk values are simulated; an access point near a road is not automatically an officially verified entrance. This is a sufficiently strong foundation for Lab 1's academic objectives and provides a clear path toward a more realistic routing system.
+
+---
+
+## References
+
+[1] Course staff/instructor, **`Problem_description.pdf`**, internal 10-page Lab 1 specification in the repository. Internally accessed August 11, 2026.
 
 [2] NIST, **“breadth-first traversal”**, Dictionary of Algorithms and Data Structures. <https://xlinux.nist.gov/dads/HTML/breadthfirst.html>.
 
@@ -767,7 +815,7 @@ Các kiểm chứng cuối — 77 test backend, 25 test frontend, build producti
 
 [8] OpenStreetMap Foundation, **“Attribution Guidelines”**. <https://osmfoundation.org/wiki/Licence/Attribution_Guidelines>.
 
-[9] OSMnx, **“Getting Started”**, tài liệu phiên bản ổn định. <https://osmnx.readthedocs.io/en/stable/getting-started.html>.
+[9] OSMnx, **“Getting Started”**, stable-version documentation. <https://osmnx.readthedocs.io/en/stable/getting-started.html>.
 
 [10] G. Boeing, **“Modeling and Analyzing Urban Networks and Amenities with OSMnx”**, 2025. <https://doi.org/10.1111/gean.70009>.
 
@@ -781,103 +829,103 @@ Các kiểm chứng cuối — 77 test backend, 25 test frontend, build producti
 
 [15] Leaflet, **API Reference 1.9.4**. <https://leafletjs.com/reference>.
 
-Nguồn [2]–[15] là tài liệu chính thức hoặc bài báo gốc/peer-reviewed. Các số liệu thực nghiệm của dự án không được gán cho các nguồn này; chúng có thể tái lập từ mã và artifact ở Phụ lục B.
+Sources [2]–[15] are official documentation or original/peer-reviewed papers. The project's experimental measurements are not attributed to these sources; they can be reproduced from the code and artifacts listed in Appendix B.
 
 ---
 
-## Phụ lục A — Đối chiếu yêu cầu đề bài
+## Appendix A — Requirement Traceability
 
-| Yêu cầu trong `Problem_description.pdf` | Vị trí đáp ứng |
+| Requirement in `Problem_description.pdf` | Where it is addressed |
 |---|---|
-| Nhóm 3–5 thành viên, thông tin và đóng góp | Mục 1 |
-| Bối cảnh giao thông Việt Nam, không phải mê cung | Mục 2 |
-| Đồ thị có hướng, node/cạnh/thuộc tính | Mục 3 |
-| Dữ liệu ≥20 node, ≥30 cạnh | Mục 4; 1.662 node, 3.649 cạnh |
-| Chi phí không chỉ là khoảng cách, giải thích trọng số | Mục 5 |
-| BFS, DFS, UCS, A* | Mục 6.2–6.5 |
-| Ít nhất hai thuật toán bổ sung | Dijkstra và Greedy, Mục 6.6–6.7 |
-| Nguyên lý, ví dụ từng bước, đầy đủ/tối ưu | Mục 6.1 và 6.8 |
-| Heuristic, admissible/consistent/thực tế | Mục 7 |
-| Bài toán nhiều địa điểm, exact/approx và bảo đảm | Mục 8 |
-| GUI bản đồ, input, step-by-step, metrics | Mục 9–10 |
-| Giải thích tuyến, congestion, thay thế, bảo đảm | Mục 10.3 |
-| So sánh lý thuyết và thực nghiệm | Mục 6.1 và 11 |
-| Hướng dẫn, ví dụ, ảnh chụp | Mục 10 và 12 |
-| Hạn chế và hướng phát triển | Mục 13 |
-| Video và gói nộp | TODO còn mở; không giả vờ đã hoàn thành |
+| Team of 3–5 members, member information, and contributions | Section 1 |
+| Vietnamese traffic context rather than a maze | Section 2 |
+| Directed graph with nodes, edges, and attributes | Section 3 |
+| Data with ≥20 nodes and ≥30 edges | Section 4; 1,662 nodes and 3,649 edges |
+| Cost beyond distance, with weight explanation | Section 5 |
+| BFS, DFS, UCS, A* | Sections 6.2–6.5 |
+| At least two additional algorithms | Dijkstra and Greedy, Sections 6.6–6.7 |
+| Principles, step-by-step example, completeness/optimality | Sections 6.1 and 6.8 |
+| Heuristic, admissibility/consistency/practicality | Section 7 |
+| Multi-location problem, exact/approximate methods and guarantees | Section 8 |
+| Map GUI, inputs, step-by-step execution, metrics | Sections 9–10 |
+| Route explanation, congestion, alternatives, guarantees | Section 10.3 |
+| Theoretical and experimental comparison | Sections 6.1 and 11 |
+| Instructions, examples, screenshots | Sections 10 and 12 |
+| Limitations and future work | Section 13 |
+| Video and submission package | TODO remains open; not falsely claimed as complete |
 
 ---
 
-## Phụ lục B — Tái lập kiểm chứng
+## Appendix B — Reproducing the Verification
 
-### B.1. Artifact bằng chứng
+### B.1. Evidence Artifacts
 
-- Snapshot nguồn OSM: `lab-1-backend/data/osm/`.
-- Landmark và điểm truy cập: `lab-1-backend/data/landmarks.json`.
-- Kết quả benchmark dùng trong báo cáo: `tmp/report_evidence/benchmark.json`.
-- Kết quả audit toàn tập: `tmp/report_evidence/audit.json`.
-- Ví dụ đồ thị nhỏ: `docs/ALGORITHM_WALKTHROUGH.md` và test fixture liên quan.
-- Ảnh giao diện mới: `docs/images/report-single-current.png`, `report-compare-current.png`, `report-multi-current.png`.
+- OSM source snapshot: `lab-1-backend/data/osm/`.
+- Landmarks and access points: `lab-1-backend/data/landmarks.json`.
+- Benchmark results used in the report: `tmp/report_evidence/benchmark.json`.
+- Full-set audit results: `tmp/report_evidence/audit.json`.
+- Small graph example: `docs/ALGORITHM_WALKTHROUGH.md` and the related test fixture.
+- Current interface screenshots: `docs/images/report-single-current.png`, `report-compare-current.png`, and `report-multi-current.png`.
 
-Thư mục `tmp/` là artifact làm việc; trước khi nộp chính thức, nhóm nên chạy lại script kiểm toán và lưu bản kết quả có version/commit vào `docs/evidence/` nếu muốn provenance bền vững.
+The `tmp/` directory contains working artifacts. Before the official submission, the team should rerun the audit script and store versioned/commit-linked results in `docs/evidence/` if durable provenance is desired.
 
-### B.2. Quy tắc diễn giải bằng chứng
+### B.2. Rules for Interpreting Evidence
 
-- “Tối ưu” luôn kèm điều kiện thuật toán và hàm chi phí.
-- “Giao thông” trong số liệu là profile mô phỏng, không phải live data.
-- Thời gian benchmark không được khái quát sang máy khác.
-- Tọa độ truy cập gần đường không được tự động gọi là cổng chính thức.
-- Nếu cập nhật OSM, phải cập nhật thống kê, ảnh và benchmark cùng nhau.
+- “Optimal” always includes the relevant algorithmic conditions and cost function.
+- “Traffic” in the measurements refers to simulated profiles, not live data.
+- Benchmark time must not be generalized to another machine.
+- Access coordinates near roads must not automatically be called official entrances.
+- If OSM is updated, statistics, screenshots, and benchmarks must be updated together.
 
 ---
 
-## Phụ lục C — Tự chấm điểm
+## Appendix C — Self-Assessment
 
-**Bảng 10. Tự chấm chất lượng riêng của bài viết trên thang 100**
+**Table 10. Self-assessment of writing quality on a 100-point scale**
 
-| Tiêu chí đánh giá bài viết | Điểm tối đa | Tự chấm | Bằng chứng |
+| Writing-quality criterion | Maximum | Self-score | Evidence |
 |---|---:|---:|---|
-| Bao phủ và đối chiếu yêu cầu đề | 35 | 35 | Phụ lục A; không bỏ mục kỹ thuật bắt buộc |
-| Đúng kỹ thuật và nêu đủ điều kiện bảo đảm | 25 | 25 | Mục 3, 5–8; phân biệt rõ các loại tối ưu |
-| Dữ liệu, nguồn và tính trung thực | 15 | 15 | Mục 4, tài liệu tham khảo, giới hạn tuyên bố |
-| Bằng chứng thực nghiệm và khả năng tái lập | 15 | 15 | Mục 11 và Phụ lục B |
-| Cấu trúc, độ rõ ràng và nhất quán | 10 | 9 | Đầy đủ TOC/hình/bảng; Markdown dài nên vẫn cần dàn trang khi xuất PDF |
-| **Tổng bài viết** | **100** | **99** | Đạt ngưỡng yêu cầu 98/100 |
+| Coverage and traceability to assignment requirements | 35 | 35 | Appendix A; no mandatory technical item omitted |
+| Technical correctness and complete statement of guarantee conditions | 25 | 25 | Sections 3 and 5–8; clearly distinguishes forms of optimality |
+| Data, sources, and honesty | 15 | 15 | Section 4, references, and explicit claim limitations |
+| Experimental evidence and reproducibility | 15 | 15 | Section 11 and Appendix B |
+| Structure, clarity, and consistency | 10 | 9 | Complete TOC/figure/table lists; long Markdown still requires layout work when exported to PDF |
+| **Total writing score** | **100** | **99** | Meets the required threshold of 98/100 |
 
-Đối với **toàn bộ sản phẩm môn học**, rubric gốc còn 5 điểm video. Vì video/link công khai chưa được xác minh trong phạm vi công việc này, báo cáo không tự cộng điểm video. Nếu tạm giả định các hạng mục còn lại đạt tối đa theo bằng chứng hiện có, mức sẵn sàng của toàn bộ gói nộp là **95/100 trước video**, không phải 99/100.
+For the **complete course product**, the original rubric also allocates 5 points to the video. Because no public video/link was verified within this work, the report does not award itself video points. If all other items are provisionally assumed to receive full credit based on the available evidence, the readiness of the complete submission package is **95/100 before the video**, not 99/100.
 
-### C.1. Kết luận tự đánh giá
+### C.1. Self-Assessment Conclusion
 
-Bản cuối tự chấm **99/100 cho chất lượng bài viết**, đạt ngưỡng 98/100 do người dùng đặt ra. Một điểm trừ dành cho công đoạn dàn trang khi chuyển Markdown sang bản PDF nộp chính thức. Mọi mục kỹ thuật bắt buộc đã có đối chiếu; số liệu được chạy lại; ảnh chụp hiện trạng thay ảnh cũ; nguồn bên ngoài giới hạn ở tài liệu chính thức và bài báo gốc/peer-reviewed. Video được ghi riêng là hạng mục chưa xác minh, tuyệt đối không dùng để nâng điểm bài viết.
+The final version assigns itself **99/100 for writing quality**, meeting the user's 98/100 threshold. The one-point deduction is for final layout work when converting Markdown into the official submission PDF. Every mandatory technical item has traceability; measurements were rerun; current screenshots replaced outdated ones; and external sources are limited to official documentation and original/peer-reviewed papers. The video is recorded separately as an unverified item and is never used to inflate the writing score.
 
-### C.2. Điều kiện giữ nguyên mức điểm
+### C.2. Conditions for Retaining This Score
 
-Mức tự chấm chỉ còn hợp lệ nếu khi nộp nhóm:
+The self-score remains valid only if the team:
 
-1. bổ sung trang bìa đúng mẫu;
-2. quay video thể hiện từng thành viên và từng thuật toán theo yêu cầu đề;
-3. dùng link public có thể truy cập;
-4. giữ attribution OSM;
-5. chạy lại test/audit sau mọi thay đổi mã hoặc dữ liệu;
-6. cập nhật báo cáo nếu kết quả tái chạy khác các bảng hiện tại.
+1. adds a cover page that follows the required template;
+2. records a video showing each member and each algorithm as required by the assignment;
+3. uses a publicly accessible link;
+4. retains OSM attribution;
+5. reruns tests/audits after every code or data change;
+6. updates the report if rerun results differ from the current tables.
 
 ---
 
-## Phụ lục D — Danh sách TODO
+## Appendix D — TODO List
 
-- [x] Đọc và lập ma trận yêu cầu từ toàn bộ 10 trang `Problem_description.pdf`.
-- [x] Viết mục lục, danh sách hình và danh sách bảng.
-- [x] Trình bày bối cảnh giao thông Việt Nam và mục tiêu bài toán.
-- [x] Mô hình hóa mạng đường dưới dạng đồ thị có hướng, có thuộc tính.
-- [x] Mô tả nguồn dữ liệu, quá trình làm sạch và điểm truy cập của địa danh.
-- [x] Định nghĩa hàm chi phí nhiều tiêu chí và các kịch bản giao thông.
-- [x] Trình bày BFS, DFS, UCS, A*, Dijkstra và Greedy Best-First Search.
-- [x] Phân tích heuristic, tính đầy đủ, tính tối ưu và độ phức tạp.
-- [x] Trình bày bài toán nhiều địa điểm, phương pháp chính xác và gần đúng.
-- [x] Mô tả kiến trúc chương trình, luồng xử lý và giao diện trực quan.
-- [x] Chạy lại kiểm thử, benchmark và kiểm toán toàn bộ cặp địa danh.
-- [x] Viết hướng dẫn chạy, ví dụ sử dụng và chèn ảnh chụp hiện trạng.
-- [x] Nêu hạn chế, hướng phát triển, kết luận và tài liệu tham khảo.
-- [x] Tự chấm và rà soát tính kiểm chứng của mọi tuyên bố.
-- [ ] Bổ sung trang bìa — do người dùng thực hiện.
-- [ ] Quay video demo và kiểm tra liên kết công khai trước khi nộp — nằm ngoài phạm vi tệp báo cáo này.
+- [x] Read all 10 pages of `Problem_description.pdf` and construct a requirement matrix.
+- [x] Write the table of contents, list of figures, and list of tables.
+- [x] Present the Vietnamese traffic context and problem objectives.
+- [x] Model the road network as an attributed directed graph.
+- [x] Describe data sources, cleaning, and landmark access points.
+- [x] Define the multi-criteria cost function and traffic scenarios.
+- [x] Present BFS, DFS, UCS, A*, Dijkstra, and Greedy Best-First Search.
+- [x] Analyze the heuristic, completeness, optimality, and complexity.
+- [x] Present the multi-location problem and its exact and approximate methods.
+- [x] Describe program architecture, processing flow, and the visual interface.
+- [x] Rerun tests, benchmarks, and the audit of all landmark pairs.
+- [x] Write run instructions and usage examples, and insert current screenshots.
+- [x] State limitations, future work, the conclusion, and references.
+- [x] Self-assess and review the verifiability of every claim.
+- [ ] Add the cover page — to be completed by the user.
+- [ ] Record the demo video and verify its public link before submission — outside the scope of this report file.
