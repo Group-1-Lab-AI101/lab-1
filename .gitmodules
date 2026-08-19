@@ -1,0 +1,6 @@
+[submodule "lab-1-frontend"]
+	path = lab-1-frontend
+	url = git@github.com:Group-1-Lab-AI101/lab-1-frontend.git
+[submodule "lab-1-backend"]
+	path = lab-1-backend
+	url = git@github.com:Group-1-Lab-AI101/lab-1-backend.git
